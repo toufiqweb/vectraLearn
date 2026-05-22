@@ -1,137 +1,217 @@
+"use client";
+
 import Image from "next/image";
 import React from "react";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import {
+  GraduationCap,
+  Rocket,
+  PlayCircle,
+  Users,
+  UserCheck,
+  BookOpen,
+} from "lucide-react";
+
+// Assuming these are your main structural images
 import bannerImage from "@/assets/banner.png";
 import dot from "@/assets/dot.png";
-import student from "@/assets/student.png";
-import instructor from "@/assets/instructor.png";
-import course from "@/assets/course.png";
-import Link from "next/link";
 
 const Banner = () => {
+  // Framer Motion Variants
+  const staggerContainer = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: { staggerChildren: 0.15 },
+    },
+  };
+
+  const fadeUp = {
+    hidden: { opacity: 0, y: 30 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.6, type: "spring" } },
+  };
+
+  const floatAnimation = (delay) => ({
+    initial: { y: 0 },
+    animate: {
+      y: [-8, 8, -8],
+      transition: { duration: 4, repeat: Infinity, ease: "easeInOut", delay },
+    },
+  });
+
   return (
-    <div className="container mx-auto px-5 bg-[#e6edfc] md:my-20 rounded-2xl py-10">
-      <div className="flex flex-col lg:flex-row justify-around  items-center ">
-        {/* right side */}
-        <div className="max-h[60vh] flex items-center justify-center p-6">
-          <div className="max-w-3xl w-full text-center space-y-3">
-            <div className="flex w-fit justify-self-center md:justify-self-start items-center gap-2 bg-white/60 backdrop-blur-md border border-black/20 rounded-full px-5 py-2">
-              <span className="text-white text-sm md:text-xl">🎓</span>
-              <span className="text-main-gradient text-sm md:text-lg font-medium">
-                Online Learning Platform
-              </span>
-            </div>
+    <header  className="bg-linear-to-br from-[#e6edfc] to-[#f4f7ff] ">
+      <div className="container mx-auto px-5  rounded-3xl py-12 lg:py-20 relative overflow-hidden">
+        <div className="flex flex-col lg:flex-row justify-around items-center gap-12 lg:gap-6">
+          {/* Left Side: Text & CTAs */}
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.2 }}
+            className="flex-1 flex flex-col items-center lg:items-start p-6 z-10"
+          >
+            <div className="max-w-3xl w-full text-center lg:text-left space-y-6">
+              {/* Badge */}
+              <motion.div
+                variants={fadeUp}
+                className="flex w-fit mx-auto lg:mx-0 items-center gap-2 bg-white/70 backdrop-blur-md border border-white shadow-sm rounded-full px-5 py-2"
+              >
+                <GraduationCap className="text-indigo-600 w-5 h-5" />
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 text-sm md:text-base font-semibold">
+                  Online Learning Platform
+                </span>
+              </motion.div>
 
-            <h1 className="text-4xl text-center md:text-left sm:text-5xl md:text-6xl font-bold leading-relaxed text-[#0F172A]  my-6">
-              Upgrade Your
-              <br />
-              <span className="text-[#E0E7FF] text-main-gradient">
-                Skills Today
-              </span>
-              <span className="ml-2 hidden md:inline-block"> 🚀</span>
-            </h1>
+              {/* Heading */}
+              <motion.h1
+                variants={fadeUp}
+                className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight text-[#0F172A]"
+              >
+                Upgrade Your
+                <br />
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
+                  Skills Today
+                </span>
+                <Rocket className="inline-block ml-3 w-8 h-8 md:w-12 md:h-12 text-purple-500 -mt-2" />
+              </motion.h1>
 
-            <p className="text-md sm:text-lg md:text-xl text-black/80 mb-10 max-w-md mx-auto">
-              Learn from industry experts and advance your career with our
-              high-quality online courses.
-            </p>
+              {/* Paragraph */}
+              <motion.p
+                variants={fadeUp}
+                className="text-base sm:text-lg md:text-xl text-slate-600 max-w-md mx-auto lg:mx-0"
+              >
+                Learn from industry experts and advance your career with our
+                high-quality online courses.
+              </motion.p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Link href={"/courses"}>
-                <button className="bg-main-gradient text-white font-semibold px-8 py-3 rounded-2xl hover:bg-white/90 transition-all active:scale-95 shadow-lg">
-                  Explore Courses
+              {/* Buttons */}
+              <motion.div
+                variants={fadeUp}
+                className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center pt-4"
+              >
+                <Link href={"/courses"}>
+                  <button className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold px-8 py-3.5 rounded-2xl hover:shadow-lg hover:shadow-indigo-500/30 hover:-translate-y-1 transition-all duration-300 active:scale-95">
+                    Explore Courses
+                  </button>
+                </Link>
+
+                <button className="flex items-center gap-2 bg-white text-indigo-600 font-semibold px-8 py-3.5 rounded-2xl hover:bg-slate-50 transition-all duration-300 active:scale-95 shadow-md border border-slate-100 group">
+                  <PlayCircle className="w-5 h-5 group-hover:scale-110 transition-transform text-indigo-600" />
+                  How It Works
                 </button>
-              </Link>
-
-              <button className="flex items-center gap-2 bg-white text-[#7C3AED] font-semibold px-8 py-3 rounded-2xl hover:bg-white/90 transition-all active:scale-95 shadow-lg">
-                <div className="w-5 h-5 animate-pulse rounded-full border-2 border-[#7C3AED] flex items-center justify-center">
-                  <div className="w-2 h-2 bg-[#7C3AED] rounded-full"></div>
-                </div>
-                How It Works
-              </button>
+              </motion.div>
             </div>
-          </div>
-        </div>
-        {/* Right Side */}
-        <div className="flex  items-center justify-center p-6 relative ">
-          <div className="relative  flex justify-center items-center w-full ">
-            <div>
-              {/* students*/}
-              <div className=" absolute top-12 md:-left-10 lg:top-17 lg:-left-15  border shadow-sm border-black/10 rounded-3xl bg-white p-2.5 md:p-3">
-                <div className="flex items-center gap-3 ">
-                  <div className="p-2 rounded-2xl w-7 h-7 md:w-12 md:h-12 bg-purple-100">
-                    <Image src={student} alt="student" width={34} height={34} />
+          </motion.div>
+
+          {/* Right Side: Image & Floating Cards */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            viewport={{ once: true }}
+            className="flex-1 flex items-center justify-center p-6 relative"
+          >
+            <div className="relative flex justify-center items-center w-full max-w-[500px]">
+              {/* Background Decor */}
+              <Image
+                src={dot}
+                alt="dot decoration"
+                width={80}
+                height={80}
+                className="absolute -bottom-8 -left-8 opacity-60 animate-pulse"
+              />
+              <Image
+                src={dot}
+                alt="dot decoration"
+                width={80}
+                height={80}
+                className="absolute -top-8 -right-8 opacity-60 animate-pulse"
+              />
+
+              {/* Main Image */}
+              <div className="relative z-10">
+                <Image
+                  src={bannerImage}
+                  alt="Woman learning"
+                  width={450}
+                  height={450}
+                  className="rounded-[2.5rem] shadow-2xl object-cover border-4 border-white"
+                  priority
+                />
+              </div>
+
+              {/* Floating Card 1: Active Students */}
+              <motion.div
+                variants={floatAnimation(0)}
+                initial="initial"
+                animate="animate"
+                className="absolute -top-6 -left-4 md:-left-12 z-20 backdrop-blur-xl bg-white/90 border border-white shadow-xl rounded-2xl p-3 md:p-4"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="p-2.5 rounded-xl bg-indigo-100 text-indigo-600">
+                    <Users className="w-6 h-6 md:w-8 md:h-8" />
                   </div>
-                  <div className="flex flex-col">
-                    <h2 className="font-bold text-sm md:text-lg">20K+</h2>
-                    <p className="text-black/60 text-sm md:text-[16px]">
+                  <div className="flex flex-col pr-2">
+                    <h2 className="font-extrabold text-slate-800 text-base md:text-xl">
+                      20K+
+                    </h2>
+                    <p className="text-slate-500 text-xs md:text-sm font-medium">
                       Active Students
                     </p>
                   </div>
                 </div>
-              </div>
-              {/* instructor*/}
-              <div className=" absolute md:bottom-45 -right-1 md:-right-15 lg:-right-10  border shadow-sm border-black/10 rounded-3xl bg-white p-2.5 md:p-3">
-                <div className="flex items-center gap-3 ">
-                  <div className="p-2 rounded-2xl w-7 h-7 md:w-12 md:h-12 bg-green-100">
-                    <Image
-                      src={instructor}
-                      alt="instructor"
-                      width={34}
-                      height={34}
-                    />
+              </motion.div>
+
+              {/* Floating Card 2: Expert Instructors */}
+              <motion.div
+                variants={floatAnimation(1.5)}
+                initial="initial"
+                animate="animate"
+                className="absolute bottom-16 -right-6 md:-right-14 z-20 backdrop-blur-xl bg-white/90 border border-white shadow-xl rounded-2xl p-3 md:p-4"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="p-2.5 rounded-xl bg-emerald-100 text-emerald-600">
+                    <UserCheck className="w-6 h-6 md:w-8 md:h-8" />
                   </div>
-                  <div className="flex flex-col">
-                    <h2 className="font-bold text-sm md:text-lg">200+</h2>
-                    <p className="text-black/60 text-sm md:text-[16px]">
-                      Expert Instructor
+                  <div className="flex flex-col pr-2">
+                    <h2 className="font-extrabold text-slate-800 text-base md:text-xl">
+                      200+
+                    </h2>
+                    <p className="text-slate-500 text-xs md:text-sm font-medium">
+                      Expert Instructors
                     </p>
                   </div>
                 </div>
-              </div>
-              {/* students*/}
-              <div className=" absolute bottom-10 right-2  border shadow-sm border-black/10 rounded-3xl bg-white p-2.5 md:p-3">
-                <div className="flex items-center gap-3 ">
-                  <div className="p-2 rounded-2xl w-7 h-7 md:w-12 md:h-12 bg-orange-100">
-                    <Image src={course} alt="course" width={34} height={34} />
+              </motion.div>
+
+              {/* Floating Card 3: Online Courses */}
+              <motion.div
+                variants={floatAnimation(0.8)}
+                initial="initial"
+                animate="animate"
+                className="absolute -bottom-8 left-8 md:left-12 z-20 backdrop-blur-xl bg-white/90 border border-white shadow-xl rounded-2xl p-3 md:p-4"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="p-2.5 rounded-xl bg-orange-100 text-orange-600">
+                    <BookOpen className="w-6 h-6 md:w-8 md:h-8" />
                   </div>
-                  <div className="flex flex-col">
-                    <h2 className="font-bold text-sm md:text-lg">500+</h2>
-                    <p className="text-black/60 text-sm md:text-[16px]">
+                  <div className="flex flex-col pr-2">
+                    <h2 className="font-extrabold text-slate-800 text-base md:text-xl">
+                      500+
+                    </h2>
+                    <p className="text-slate-500 text-xs md:text-sm font-medium">
                       Online Courses
                     </p>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             </div>
-            <Image
-              src={dot}
-              alt="dot"
-              width={75}
-              height={75}
-              className="absolute -bottom-6 -left-6 "
-            />
-
-            <Image
-              src={dot}
-              alt="dot"
-              width={75}
-              height={75}
-              className="absolute -top-6 -right-6 "
-            />
-
-            <div className="">
-              <Image
-                src={bannerImage}
-                alt="Woman learning"
-                width={400}
-                height={400}
-                className="rounded-3xl shadow-xl object-cover"
-              />
-            </div>
-          </div>
+          </motion.div>
         </div>
       </div>
-    </div>
+    </header>
   );
 };
 

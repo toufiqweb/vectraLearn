@@ -9,6 +9,9 @@ const SignInPage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/";
+
+  // console.log(router);
+  
   const onSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
