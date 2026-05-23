@@ -111,7 +111,7 @@ export default function CourseCard({ course }) {
         >
           <motion.h3
             variants={item}
-            className="line-clamp-2 text-lg font-bold leading-snug text-white"
+            className="line-clamp-2 text-lg font-bold leading-snug line-clamp-1 text-white"
           >
             {title}
           </motion.h3>

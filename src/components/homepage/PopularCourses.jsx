@@ -1,98 +1,75 @@
 "use client";
+
 import Link from "next/link";
-import React from "react";
+import React, { useMemo } from "react";
 import { FaArrowRight } from "react-icons/fa";
-import CourseCard from "../ui/CourseCard";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Navigation } from "swiper/modules";
-
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/autoplay";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { TbChartBarPopular } from "react-icons/tb";
+import CourseCard from "../ui/CourseCard";
 
-const PopularCourses = ({ courses }) => {
-  // const courses = await getAllCoursesData();
-  // // console.log(courses);
-
-  const topCourses = courses.sort((a, b) => b.rating - a.rating).slice(0, 5);
-
-  // console.log(topCourses);
+const PopularCourses = ({ courses = [] }) => {
+  const topCourses = useMemo(() => {
+    return [...courses]
+      .sort((a, b) => b.rating - a.rating)
+      .slice(0, 8);
+  }, [courses]);
 
   return (
-    <div className=" container mx-auto my-20 space-y-10 px-3">
-      <div className="flex flex-col md:flex-row justify-center gap-5 md:justify-between items-center">
-      
-        <div className="flex items-center gap-3">
-          <div className="p-3 bg-[#f6f8fd]  hidden sm:inline-block   rounded-2xl">
-            <TbChartBarPopular className="w-7 h-7 text-violet-600 " />
+    <section className="relative overflow-hidden py-24">
+      {/* Background Glow */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute left-10 top-10 h-72 w-72 rounded-full bg-violet-600/15 blur-[120px]" />
+        <div className="absolute right-10 bottom-10 h-72 w-72 rounded-full bg-blue-600/15 blur-[120px]" />
+      </div>
+
+      <div className="container relative z-10 mx-auto px-4">
+        {/* Header */}
+        <div className="mb-12 flex flex-col items-center justify-between gap-6 md:flex-row">
+          <div className="flex items-center gap-4">
+            <div className="glass-card rounded-2xl p-4">
+              <TbChartBarPopular className="h-7 w-7 text-violet-400" />
+            </div>
+
+            <div>
+              <span className="mb-2 inline-block text-sm font-semibold uppercase tracking-[0.2em] text-violet-400">
+                Top Rated Courses
+              </span>
+
+              <h2 className="text-3xl font-bold text-primary md:text-4xl">
+                Popular Courses
+              </h2>
+
+              <p className="mt-2 text-sm text-muted md:text-base">
+                Discover the highest-rated courses loved by thousands of
+                students.
+              </p>
+            </div>
           </div>
-          <h2 className="text-3xl font-semibold text-gray-900 ">
-             Popular courses
-          </h2>
-        </div>
 
-        <div className="flex items-center gap-2 group cursor-pointer">
           <Link
-            href={"/courses"}
-            className="text-main-gradient font-semibold transition-all duration-300 hover:opacity-80"
+            href="/courses"
+            className="group flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-5 py-3 backdrop-blur-xl transition-all duration-300 hover:border-violet-500/40 hover:shadow-[0_0_30px_rgba(124,58,237,0.2)]"
           >
-            View all courses
-          </Link>
+            <span className="text-main-gradient font-semibold">
+              View all courses
+            </span>
 
-          <FaArrowRight className="text-[#2563eb] transition-transform duration-300 group-hover:translate-x-1" />
+            <FaArrowRight className="text-violet-400 transition-transform duration-300 group-hover:translate-x-1" />
+          </Link>
+        </div>
+
+        {/* Courses Grid */}
+        <div className="grid gap-6 md:gap-12 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {topCourses.map((course) => (
+            <div
+              key={course.id}
+              className="h-full transition-all duration-500 hover:-translate-y-2"
+            >
+              <CourseCard course={course} />
+            </div>
+          ))}
         </div>
       </div>
-
-      <div className="w-full h-full py-5 relative overflow-hidden">
-        <button className="custom-prev absolute left-2 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white text-[#7c3aed] p-3 shadow-lg transition hover:scale-105 hover:bg-[#7c3aed] hover:text-white">
-          <ChevronLeft size={20} />
-        </button>
-
-        <button className="custom-next absolute right-2 top-1/2 z-10 -translate-y-1/2 rounded-full bg-white text-[#7c3aed] p-3 shadow-lg transition hover:scale-105 hover:bg-[#7c3aed] hover:text-white">
-          <ChevronRight size={20} />
-        </button>
-        <Swiper
-          modules={[Navigation, Autoplay]}
-          spaceBetween={50}
-          className=" overflow-visible! "
-          slidesPerView={4}
-          watchOverflow={true}
-          navigation={{
-            prevEl: ".custom-prev",
-            nextEl: ".custom-next",
-          }}
-          loop={true}
-          autoplay={{ delay: 2000 }}
-          breakpoints={{
-            0: {
-              slidesPerView: 1,
-            },
-            768: {
-              slidesPerView: 2,
-            },
-
-            992: {
-              slidesPerView: 3,
-            },
-            1200: {
-              slidesPerView: 4,
-            },
-          }}
-          // onSlideChange={() => console.log("slide change")}
-          // onSwiper={(swiper) => console.log(swiper)}
-        >
-          {topCourses.map((course) => (
-            <SwiperSlide key={course.id} className="h-auto! flex ">
-              <CourseCard course={course} />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </div>
-    </div>
+    </section>
   );
 };
 

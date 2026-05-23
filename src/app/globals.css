@@ -62,20 +62,13 @@
       rgba(59, 130, 246, 0.3),
       transparent 40%
     ),
-    linear-gradient(
-      135deg,
-      #14043d 0%,
-      #17043f 35%,
-      #0c154f 70%,
-      #102d70 100%
-    );
+    linear-gradient(135deg, #14043d 0%, #17043f 35%, #0c154f 70%, #102d70 100%);
 
   /* Shadows */
   --shadow-glow: 0 20px 60px rgba(139, 92, 246, 0.45);
 
   --shadow-card:
-    0 15px 40px rgba(0, 0, 0, 0.35),
-    0 0 30px rgba(139, 92, 246, 0.15);
+    0 15px 40px rgba(0, 0, 0, 0.35), 0 0 30px rgba(139, 92, 246, 0.15);
 }
 
 /* =========================
@@ -137,19 +130,13 @@
       rgba(59, 130, 246, 0.12),
       transparent 40%
     ),
-    linear-gradient(
-      135deg,
-      #f8fafc 0%,
-      #eef2ff 40%,
-      #dbeafe 100%
-    );
+    linear-gradient(135deg, #f8fafc 0%, #eef2ff 40%, #dbeafe 100%);
 
   /* Shadows */
   --shadow-glow: 0 20px 60px rgba(124, 58, 237, 0.15);
 
   --shadow-card:
-    0 10px 30px rgba(15, 23, 42, 0.08),
-    0 0 20px rgba(124, 58, 237, 0.08);
+    0 10px 30px rgba(15, 23, 42, 0.08), 0 0 20px rgba(124, 58, 237, 0.08);
 }
 
 /* =========================
