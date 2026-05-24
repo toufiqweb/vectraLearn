@@ -1,8 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-
-import person from "@/assets/person.jpg";
+import girl from "@/assets/girl.png";
 
 import {
   BookOpen,
@@ -29,12 +28,12 @@ const StartLearningToday = () => {
               <div className="absolute h-56 w-56 sm:h-64 sm:w-64 rounded-full bg-violet-500/20 blur-[100px]" />
 
               <Image
-                src={person}
+                src={girl}
                 alt="Student Learning"
                 width={500}
                 height={500}
                 priority
-                className="relative z-10 w-full max-w-[280px] rounded-3xl object-cover shadow-2xl sm:max-w-sm md:max-w-md"
+                className="relative z-10 w-full max-w-[280px] rounded-3xl object-cover  sm:max-w-sm md:max-w-md"
               />
             </div>
 
