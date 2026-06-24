@@ -29,7 +29,7 @@
 ##  Mockup
 
 
-![Skill-Sphere Mockup](https://i.ibb.co.com/V0PjcqrB/skill-sphere-mockup.png)
+![Skill-Sphere Mockup](https://i.ibb.co.com/pBCGPtdR/skill-Sphere-Mockupe.png)
 
 ## 🎯 Project Purpose
 
