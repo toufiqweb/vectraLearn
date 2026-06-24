@@ -63,15 +63,35 @@
   --text-muted: #64748b;
 
   /* Gradients */
-  --gradient-primary: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 50%, #2563eb 100%);
-  --gradient-text: linear-gradient(90deg, #7c3aed 0%, #6366f1 40%, #2563eb 100%);
-  --gradient-hero: radial-gradient(circle at 15% 15%, rgba(139, 92, 246, 0.15), transparent 35%),
-                   radial-gradient(circle at 85% 40%, rgba(59, 130, 246, 0.12), transparent 40%),
-                   linear-gradient(135deg, #f8fafc 0%, #eef2ff 40%, #dbeafe 100%);
+  --gradient-primary: linear-gradient(
+    135deg,
+    #7c3aed 0%,
+    #8b5cf6 50%,
+    #2563eb 100%
+  );
+  --gradient-text: linear-gradient(
+    90deg,
+    #7c3aed 0%,
+    #6366f1 40%,
+    #2563eb 100%
+  );
+  --gradient-hero:
+    radial-gradient(
+      circle at 15% 15%,
+      rgba(139, 92, 246, 0.15),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 85% 40%,
+      rgba(59, 130, 246, 0.12),
+      transparent 40%
+    ),
+    linear-gradient(135deg, #f8fafc 0%, #eef2ff 40%, #dbeafe 100%);
 
   /* Shadows */
   --shadow-glow: 0 20px 60px rgba(124, 58, 237, 0.15);
-  --shadow-card: 0 10px 30px rgba(15, 23, 42, 0.08), 0 0 20px rgba(124, 58, 237, 0.08);
+  --shadow-card:
+    0 10px 30px rgba(15, 23, 42, 0.08), 0 0 20px rgba(124, 58, 237, 0.08);
 }
 
 /* Dark Theme */
@@ -109,15 +129,36 @@
   --text-muted: #94a3b8;
 
   /* Gradients */
-  --gradient-primary: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 50%, #a855f7 100%);
-  --gradient-text: linear-gradient(90deg, #c4b5fd 0%, #a78bfa 35%, #c084fc 70%, #60a5fa 100%);
-  --gradient-hero: radial-gradient(circle at 15% 15%, rgba(139, 92, 246, 0.35), transparent 35%),
-                   radial-gradient(circle at 85% 40%, rgba(59, 130, 246, 0.25), transparent 40%),
-                   linear-gradient(135deg, #14043d 0%, #17043f 35%, #0c154f 70%, #102d70 100%);
+  --gradient-primary: linear-gradient(
+    135deg,
+    #7c3aed 0%,
+    #8b5cf6 50%,
+    #a855f7 100%
+  );
+  --gradient-text: linear-gradient(
+    90deg,
+    #c4b5fd 0%,
+    #a78bfa 35%,
+    #c084fc 70%,
+    #60a5fa 100%
+  );
+  --gradient-hero:
+    radial-gradient(
+      circle at 15% 15%,
+      rgba(139, 92, 246, 0.35),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 85% 40%,
+      rgba(59, 130, 246, 0.25),
+      transparent 40%
+    ),
+    linear-gradient(135deg, #14043d 0%, #17043f 35%, #0c154f 70%, #102d70 100%);
 
   /* Shadows */
   --shadow-glow: 0 20px 60px rgba(139, 92, 246, 0.45);
-  --shadow-card: 0 15px 40px rgba(0, 0, 0, 0.35), 0 0 30px rgba(139, 92, 246, 0.15);
+  --shadow-card:
+    0 15px 40px rgba(0, 0, 0, 0.35), 0 0 30px rgba(139, 92, 246, 0.15);
 }
 
 /* =========================
@@ -127,7 +168,9 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  transition: background 0.3s ease, color 0.3s ease;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
 }
 
 /* =========================
@@ -135,7 +178,11 @@ body {
 ========================= */
 
 .bg-main-gradient {
-  background: linear-gradient(135deg, var(--primary-gradient-start), var(--primary-gradient-end));
+  background: linear-gradient(
+    135deg,
+    var(--primary-gradient-start),
+    var(--primary-gradient-end)
+  );
   background-size: 200% 200%;
   transition: all 0.4s ease;
 }
@@ -147,7 +194,11 @@ body {
 }
 
 .text-main-gradient {
-  background: linear-gradient(135deg, var(--primary-gradient-start), var(--primary-gradient-end));
+  background: linear-gradient(
+    135deg,
+    var(--primary-gradient-start),
+    var(--primary-gradient-end)
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -159,7 +210,12 @@ body {
   border-radius: 12px;
   background:
     linear-gradient(var(--background), var(--background)) padding-box,
-    linear-gradient(135deg, var(--primary-gradient-start), var(--primary-gradient-end)) border-box;
+    linear-gradient(
+        135deg,
+        var(--primary-gradient-start),
+        var(--primary-gradient-end)
+      )
+      border-box;
   transition: all 0.3s ease;
 }
 
@@ -180,9 +236,15 @@ body {
    TEXT COLORS
 ========================= */
 
-.text-primary { color: var(--text-primary); }
-.text-secondary { color: var(--text-secondary); }
-.text-muted { color: var(--text-muted); }
+.text-primary {
+  color: var(--text-primary);
+}
+.text-secondary {
+  color: var(--text-secondary);
+}
+.text-muted {
+  color: var(--text-muted);
+}
 
 /* =========================
    HERO BACKGROUND
