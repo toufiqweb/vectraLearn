@@ -26,8 +26,7 @@
 
 </div>
 
-##  Mockup
-
+## Mockup
 
 ![Skill-Sphere Mockup](https://i.ibb.co.com/pBCGPtdR/skill-Sphere-Mockupe.png)
 
@@ -107,3 +106,10 @@ src/
 
 **Name:** Taj Ahmed  
 **Project:** SkillSphere – Online Learning Platform
+
+```
+new added
+
+//  user Role
+
+```
