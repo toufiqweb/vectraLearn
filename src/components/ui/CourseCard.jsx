@@ -62,7 +62,7 @@ export default function CourseCard({ course }) {
         ease: [0.22, 1, 0.36, 1],
       }}
       whileHover={{ y: -8 }}
-      className="group relative h-full rounded-[28px] border border-card-border transition-colors duration-300 p-[1px] shadow-[0_20px_50px_rgba(0,0,0,0.3)] transition-shadow duration-500 hover:shadow-[0_0_30px_rgba(109,93,252,0.2)] bg-gradient-to-b from-white/10 to-transparent"
+      className="group relative h-full rounded-[28px] border border-card-border transition-colors duration-300 p-[1px] shadow-[0_8px_30px_rgba(0,0,0,0.06)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.2)] transition-shadow duration-500 hover:shadow-[0_8px_30px_rgba(109,93,252,0.1)] bg-gradient-to-b from-white/10 to-transparent"
     >
       {/* Inner Glass Surface — Updated to Deep Space Styling Framework */}
       <div className="relative flex h-full flex-col overflow-hidden rounded-[27px] bg-card-bg/75 transition-colors duration-300 backdrop-blur-2xl">
