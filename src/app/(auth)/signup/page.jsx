@@ -5,7 +5,18 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
-import { User, Image as ImageIcon, Mail, Lock, UserPlus, RotateCcw, ShieldCheck, ArrowRight, GraduationCap, Eye } from "lucide-react";
+import {
+  User,
+  Image as ImageIcon,
+  Mail,
+  Lock,
+  UserPlus,
+  RotateCcw,
+  ShieldCheck,
+  ArrowRight,
+  GraduationCap,
+  Eye,
+} from "lucide-react";
 
 const SignUpPage = () => {
   const router = useRouter();
@@ -53,7 +64,9 @@ const SignUpPage = () => {
           },
           onError: (ctx) => {
             toast.error(
-              String(ctx?.error?.message || ctx?.error || "Something went wrong"),
+              String(
+                ctx?.error?.message || ctx?.error || "Something went wrong",
+              ),
             );
           },
         },
@@ -81,15 +94,18 @@ const SignUpPage = () => {
 
   return (
     <div className="relative min-h-screen bg-background transition-colors duration-300 pt-32 pb-16 flex flex-col items-center justify-center p-4 overflow-hidden">
-      
       {/* Background Graphic Curves & Sparkle Highlights from theme context */}
       <div className="pointer-events-none absolute inset-0 z-0">
         <div className="absolute top-1/4 right-[-10%] w-[600px] h-[600px] bg-indigo-600/10 rounded-full blur-[140px]" />
         <div className="absolute bottom-1/8 left-[-10%] w-[500px] h-[500px] bg-purple-600/5 rounded-full blur-[140px]" />
-        
+
         {/* Subtle background star elements */}
-        <span className="absolute top-1/4 right-20 text-indigo-400/30 font-serif text-xl select-none">✦</span>
-        <span className="absolute bottom-1/4 left-16 text-purple-400/20 font-serif text-2xl select-none">✦</span>
+        <span className="absolute top-1/4 right-20 text-indigo-400/30 font-serif text-xl select-none">
+          ✦
+        </span>
+        <span className="absolute bottom-1/4 left-16 text-purple-400/20 font-serif text-2xl select-none">
+          ✦
+        </span>
       </div>
 
       {/* Top-Left Isolated Platform Brand Logo */}
@@ -99,7 +115,10 @@ const SignUpPage = () => {
         </div>
         <div className="flex flex-col">
           <h1 className="text-base font-black tracking-tight text-foreground leading-none transition-colors duration-300 ">
-            Skill<span className="text-muted transition-colors duration-300 font-semibold">Sphere</span>
+            Skill
+            <span className="text-muted transition-colors duration-300 font-semibold">
+              Sphere
+            </span>
           </h1>
           <span className="text-[7px] uppercase tracking-[0.25em] text-muted transition-colors duration-300 font-bold mt-0.5">
             Learn • Grow • Succeed
@@ -109,7 +128,6 @@ const SignUpPage = () => {
 
       {/* Main Structural Wrapper Grid Form Element Container */}
       <div className="w-full max-w-[520px] relative z-10 mt-6">
-        
         {/* Floating Absolute Center Top Accent Icon Badge Element */}
         <div className="absolute -top-10 left-1/2 -translate-x-1/2 z-20 flex h-20 w-20 items-center justify-center rounded-full border border-purple-500/30 bg-background transition-colors duration-300 text-purple-300 shadow-[0_0_30px_rgba(109,93,252,0.25)]">
           <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-b from-[#6d5dfc]/20 to-transparent">
@@ -119,7 +137,6 @@ const SignUpPage = () => {
 
         {/* Main Card Element Block layout frame settings */}
         <div className="bg-card-bg/60 transition-colors duration-300 backdrop-blur-2xl rounded-[32px] border border-card-border transition-colors duration-300 pt-16 pb-2 overflow-hidden shadow-[0_24px_60px_rgba(0,0,0,0.4)]">
-          
           {/* Main Integrated Text Layout Headers info panel */}
           <div className="px-8 mb-8 text-center">
             <h2 className="text-2xl font-black text-foreground tracking-tight sm:text-3xl transition-colors duration-300 ">
@@ -152,7 +169,6 @@ const SignUpPage = () => {
 
           {/* Content Entry Shell Form Inputs fields map wrapper initialization block */}
           <form onSubmit={onSubmit} className="px-8 space-y-5">
-            
             {/* Input Element Module: Full Name setup layout */}
             <div className="space-y-2">
               <label className="text-xs font-bold text-secondary transition-colors duration-300 flex items-center gap-2 tracking-wide">
@@ -172,7 +188,12 @@ const SignUpPage = () => {
             <div className="space-y-2">
               <label className="text-xs font-bold text-secondary transition-colors duration-300 flex items-center gap-2 tracking-wide">
                 <ImageIcon size={13} className="text-indigo-400" />
-                <span>Profile Photo URL <span className="text-muted transition-colors duration-300 font-medium font-mono text-[10px]">(Optional)</span></span>
+                <span>
+                  Profile Photo URL{" "}
+                  <span className="text-muted transition-colors duration-300 font-medium font-mono text-[10px]">
+                    (Optional)
+                  </span>
+                </span>
               </label>
               <input
                 type="url"
@@ -212,7 +233,10 @@ const SignUpPage = () => {
                   className="w-full px-4 py-3.5 pr-10 rounded-xl bg-card-bg/60 transition-colors duration-300 border border-card-border transition-colors duration-300 text-sm text-foreground placeholder:text-slate-600 focus:border-indigo-500 focus:bg-background transition-colors duration-300 outline-none transition-all duration-200 transition-colors duration-300 "
                   required
                 />
-                <button type="button" className="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted transition-colors duration-300 hover:text-secondary transition-colors duration-300 ">
+                <button
+                  type="button"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted transition-colors duration-300 hover:text-secondary transition-colors duration-300 "
+                >
                   <Eye size={14} />
                 </button>
               </div>
@@ -233,7 +257,10 @@ const SignUpPage = () => {
                 type="reset"
                 className="flex-1 border border-card-border transition-colors duration-300 bg-card-bg/30 transition-colors duration-300 hover:bg-foreground/5 transition-colors duration-300 text-secondary transition-colors duration-300 font-bold py-3.5 px-4 rounded-xl text-xs sm:text-sm transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer active:scale-[0.99]"
               >
-                <RotateCcw size={13} className="text-muted transition-colors duration-300 " />
+                <RotateCcw
+                  size={13}
+                  className="text-muted transition-colors duration-300 "
+                />
                 <span>Reset</span>
               </button>
             </div>
@@ -243,7 +270,10 @@ const SignUpPage = () => {
           <div className="mt-6 px-8 py-4 border-t border-card-border transition-colors duration-300 bg-card-bg/40 transition-colors duration-300 text-center">
             <p className="text-xs sm:text-sm text-muted transition-colors duration-300 font-medium">
               Already have an account?{" "}
-              <Link href="/signin" className="text-[#8b7eff] font-bold tracking-wide inline-flex items-center gap-0.5 group hover:underline">
+              <Link
+                href="/signin"
+                className="text-[#8b7eff] font-bold tracking-wide inline-flex items-center gap-0.5 group hover:underline"
+              >
                 Login
               </Link>
             </p>

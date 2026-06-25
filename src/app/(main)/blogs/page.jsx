@@ -1,13 +1,12 @@
-import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { 
-  BookOpen, 
-  Clock, 
-  User, 
-  ArrowRight, 
-  Search, 
-  TrendingUp, 
+import {
+  BookOpen,
+  Clock,
+  User,
+  ArrowRight,
+  Search,
+  TrendingUp,
   Calendar,
   ChevronRight,
   Mail,
@@ -15,7 +14,7 @@ import {
   Terminal,
   Activity,
   Award,
-  Globe
+  Globe,
 } from "lucide-react";
 
 // Expanded mock dataset structured around an advanced engineering ecosystem
@@ -31,60 +30,72 @@ const QUICK_TRENDS = [
   "Next.js 15.2 Partial Prerendering",
   "Vite 8.0 Module Resolution",
   "Tailwind CSS Layer Optimization",
-  "Edge Telemetry Metrics"
+  "Edge Telemetry Metrics",
 ];
 
 const MOCK_POSTS = [
   {
     id: "1",
     title: "Mastering Server Component Architecture & Streaming in Next.js 15",
-    excerpt: "Dive deep into modern stream parsing, asymmetric state hydration parameters, and high-performance dynamic routing optimizations without sacrificing time-to-first-byte (TTFB) metrics.",
+    excerpt:
+      "Dive deep into modern stream parsing, asymmetric state hydration parameters, and high-performance dynamic routing optimizations without sacrificing time-to-first-byte (TTFB) metrics.",
     category: "Next.js & React Frameworks",
     author: "Alex Rivers",
     date: "May 2026",
     readTime: "6 min read",
-    image: "https://i.pinimg.com/1200x/18/a3/3d/18a33d89164fb9f67360537922cf43c0.jpg",
+    image:
+      "https://i.pinimg.com/1200x/18/a3/3d/18a33d89164fb9f67360537922cf43c0.jpg",
   },
   {
     id: "2",
     title: "Advanced Cryptographic Session Protocols & Multi-Factor Auth Flow",
-    excerpt: "An in-depth structural review of decentralized access management topologies, edge session parameter checks, and secure fallback credential verification workflows.",
+    excerpt:
+      "An in-depth structural review of decentralized access management topologies, edge session parameter checks, and secure fallback credential verification workflows.",
     category: "Database & Session Engines",
     author: "Sarah Chen",
     date: "May 2026",
     readTime: "8 min read",
-    image: "https://i.pinimg.com/736x/d5/b2/75/d5b2759e6d562a4ea5f5dde382b6a130.jpg",
+    image:
+      "https://i.pinimg.com/736x/d5/b2/75/d5b2759e6d562a4ea5f5dde382b6a130.jpg",
   },
   {
     id: "3",
-    title: "Building Fluid Glassmorphism Frameworks with Tailwind CSS Variable APIs",
-    excerpt: "Unlock responsive micro-frontend layout strategies using unified CSS variable design token layers to maintain flawless theme synchronization across system environments.",
+    title:
+      "Building Fluid Glassmorphism Frameworks with Tailwind CSS Variable APIs",
+    excerpt:
+      "Unlock responsive micro-frontend layout strategies using unified CSS variable design token layers to maintain flawless theme synchronization across system environments.",
     category: "Tailwind & Design Systems",
     author: "Marcus Vance",
     date: "Apr 2026",
     readTime: "5 min read",
-    image: "https://i.pinimg.com/736x/76/4e/79/764e79916817cf84a8bca7fdc2f7dd48.jpg",
+    image:
+      "https://i.pinimg.com/736x/76/4e/79/764e79916817cf84a8bca7fdc2f7dd48.jpg",
   },
   {
     id: "4",
     title: "Resolving Complex Dependency Trees and Layer Instability in Vite 8",
-    excerpt: "Demystifying strict ES module resolution caching rules, handling peer dependency configuration drift, and setting optimal pre-bundling parameters for micro-apps.",
+    excerpt:
+      "Demystifying strict ES module resolution caching rules, handling peer dependency configuration drift, and setting optimal pre-bundling parameters for micro-apps.",
     category: "Dependency & Compilation Trees",
-    author: "Elena Rostova",
+    author: "Jon Snow ",
     date: "Apr 2026",
     readTime: "7 min read",
-    image: "https://i.ibb.co.com/BHGfHYMz/Gemini-Generated-Image-z638kgz638kgz638.png",
+    image:
+      "https://i.ibb.co.com/BHGfHYMz/Gemini-Generated-Image-z638kgz638kgz638.png",
   },
   {
     id: "5",
-    title: "Optimizing Recharts Responsive Containers for High-Throughput Live Dashboards",
-    excerpt: "A tactical architectural blueprint for reducing layout reflow loops when monitoring live system telemetry pipelines with SVG and HTML5 Canvas backends.",
+    title:
+      "Optimizing Recharts Responsive Containers for High-Throughput Live Dashboards",
+    excerpt:
+      "A tactical architectural blueprint for reducing layout reflow loops when monitoring live system telemetry pipelines with SVG and HTML5 Canvas backends.",
     category: "Tailwind & Design Systems",
     author: "Tajah M.",
     date: "Mar 2026",
     readTime: "9 min read",
-    image: "https://i.ibb.co.com/1yrGPdV/Gemini-Generated-Image-99csxg99csxg99cs.png",
-  }
+    image:
+      "https://i.ibb.co.com/1yrGPdV/Gemini-Generated-Image-99csxg99csxg99cs.png",
+  },
 ];
 
 const BlogPage = () => {
@@ -93,7 +104,6 @@ const BlogPage = () => {
 
   return (
     <div className="relative min-h-screen bg-background transition-colors duration-300 py-12 pt-28 lg:pt-36 px-4 transition-colors duration-300 overflow-hidden">
-      
       {/* Background Graphic Curves & Neon Spot Highlights */}
       <div className="pointer-events-none absolute inset-0 z-0">
         <div className="absolute top-1/4 left-[-10%] w-[600px] h-[600px] bg-indigo-600/5 rounded-full blur-[140px]" />
@@ -102,21 +112,26 @@ const BlogPage = () => {
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-12 max-w-7xl relative z-10">
-        
         {/* =========================================================
             SECTION 1: Dynamic Page Header Context
             ========================================================= */}
         <div className="text-center max-w-3xl mx-auto space-y-5">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-purple-500/30 bg-purple-500/10 text-xs font-bold tracking-wider uppercase text-purple-300 shadow-[0_0_15px_rgba(168,85,247,0.1)]">
-            <BookOpen className="w-3.5 h-3.5 text-[#8b7eff]" /> Core Technology Logs
+            <BookOpen className="w-3.5 h-3.5 text-[#8b7eff]" /> Core Technology
+            Logs
           </div>
 
           <h2 className="text-3xl font-black text-foreground sm:text-4xl lg:text-6xl tracking-tight leading-none transition-colors duration-300 ">
             Ecosystem Insights &
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#5643ff] to-[#8b7eff]"> Deep System Blueprints</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#5643ff] to-[#8b7eff]">
+              {" "}
+              Deep System Blueprints
+            </span>
           </h2>
           <p className="text-muted transition-colors duration-300 text-xs sm:text-sm font-medium leading-relaxed max-w-2xl mx-auto">
-            Maintain total synchronization with advanced technical updates, microservice layouts, build compilation telemetry, and modern client interface rendering strategies.
+            Maintain total synchronization with advanced technical updates,
+            microservice layouts, build compilation telemetry, and modern client
+            interface rendering strategies.
           </p>
         </div>
 
@@ -141,7 +156,6 @@ const BlogPage = () => {
             ========================================================= */}
         {featuredPost && (
           <div className="bg-card-bg/60 transition-colors duration-300 backdrop-blur-2xl rounded-[32px] border border-card-border transition-colors duration-300 overflow-hidden shadow-[0_24px_60px_rgba(0,0,0,0.4)] grid lg:grid-cols-12 items-center gap-0 group">
-            
             {/* Featured Image Frame */}
             <div className="lg:col-span-7 h-64 sm:h-96 w-full relative overflow-hidden bg-card-bg/60 transition-colors duration-300 ">
               <div className="absolute inset-0 bg-gradient-to-t from-background transition-colors duration-300 via-transparent to-transparent opacity-60 z-10 pointer-events-none" />
@@ -171,7 +185,8 @@ const BlogPage = () => {
 
               <div className="flex items-center gap-4 text-[11px] text-muted transition-colors duration-300 pt-3 border-t border-card-border transition-colors duration-300 ">
                 <span className="flex items-center gap-1 font-bold text-muted transition-colors duration-300 ">
-                  <User className="w-3.5 h-3.5 text-indigo-400" /> {featuredPost.author}
+                  <User className="w-3.5 h-3.5 text-indigo-400" />{" "}
+                  {featuredPost.author}
                 </span>
                 <span className="flex items-center gap-1 font-semibold">
                   <Calendar className="w-3.5 h-3.5" /> {featuredPost.date}
@@ -186,7 +201,8 @@ const BlogPage = () => {
                   href={`/blog/${featuredPost.id}`}
                   className="bg-gradient-to-r from-[#5643ff] to-[#6d5dfc] text-white px-5 py-3.5 rounded-xl text-xs font-bold uppercase tracking-wider inline-flex items-center gap-2 shadow-md shadow-indigo-600/10 hover:brightness-110 hover:scale-[1.02] transition-all duration-200"
                 >
-                  <span>Read Featured Blueprint</span> <ArrowRight className="w-3.5 h-3.5" />
+                  <span>Read Featured Blueprint</span>{" "}
+                  <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>
             </div>
@@ -197,7 +213,6 @@ const BlogPage = () => {
             SECTION 3: Multi-Column Main Workspace Matrix Split
             ========================================================= */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          
           {/* LEFT SUBGRID: Main Article Stream Feed */}
           <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
             {regularPosts.map((post) => (
@@ -217,7 +232,7 @@ const BlogPage = () => {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-background transition-colors duration-300 via-transparent to-transparent opacity-40" />
                   </div>
-                  
+
                   <div className="p-6 space-y-3">
                     <span className="text-[10px] font-black tracking-wider uppercase text-purple-400">
                       {post.category}
@@ -234,7 +249,8 @@ const BlogPage = () => {
                 <div className="p-6 pt-0 mt-auto">
                   <div className="flex items-center justify-between text-[11px] text-muted transition-colors duration-300 pb-4 border-b border-card-border transition-colors duration-300 ">
                     <span className="flex items-center gap-1 font-bold text-muted transition-colors duration-300 ">
-                      <User className="w-3.5 h-3.5 text-indigo-400" /> {post.author}
+                      <User className="w-3.5 h-3.5 text-indigo-400" />{" "}
+                      {post.author}
                     </span>
                     <span className="flex items-center gap-1 font-semibold">
                       <Clock className="w-3.5 h-3.5" /> {post.readTime}
@@ -244,7 +260,8 @@ const BlogPage = () => {
                     href={`/blog/${post.id}`}
                     className="inline-flex items-center gap-1 text-xs font-bold text-[#8b7eff] pt-4 tracking-wide uppercase group-hover:gap-2 transition-all"
                   >
-                    <span>Analyze Logs</span> <ChevronRight className="w-3.5 h-3.5" />
+                    <span>Analyze Logs</span>{" "}
+                    <ChevronRight className="w-3.5 h-3.5" />
                   </Link>
                 </div>
               </div>
@@ -253,11 +270,11 @@ const BlogPage = () => {
 
           {/* RIGHT SUBGRID: Sidebar Widgets */}
           <div className="lg:col-span-4 space-y-6">
-            
             {/* Widget 1: Search */}
             <div className="bg-card-bg/60 transition-colors duration-300 backdrop-blur-2xl rounded-3xl p-6 border border-card-border transition-colors duration-300 space-y-4">
               <h4 className="text-xs font-black text-foreground tracking-widest uppercase flex items-center gap-2 transition-colors duration-300 ">
-                <Search className="w-4 h-4 text-[#8b7eff]" /> Target Registry Search
+                <Search className="w-4 h-4 text-[#8b7eff]" /> Target Registry
+                Search
               </h4>
               <div className="relative">
                 <input
@@ -272,7 +289,8 @@ const BlogPage = () => {
             {/* Widget 2: Custom Architecture Taxonomy Categories */}
             <div className="bg-card-bg/60 transition-colors duration-300 backdrop-blur-2xl rounded-3xl p-6 border border-card-border transition-colors duration-300 space-y-4">
               <h4 className="text-xs font-black text-foreground tracking-widest uppercase flex items-center gap-2 transition-colors duration-300 ">
-                <TrendingUp className="w-4 h-4 text-indigo-400" /> Structural Taxonomies
+                <TrendingUp className="w-4 h-4 text-indigo-400" /> Structural
+                Taxonomies
               </h4>
               <div className="space-y-2">
                 {MOCK_CATEGORIES.map((category, index) => (
@@ -294,19 +312,26 @@ const BlogPage = () => {
             {/* NEW Widget 3: Live Engineering Metrics Ledger */}
             <div className="bg-card-bg/60 transition-colors duration-300 backdrop-blur-2xl rounded-3xl p-6 border border-card-border transition-colors duration-300 space-y-4">
               <h4 className="text-xs font-black text-foreground tracking-widest uppercase flex items-center gap-2 transition-colors duration-300 ">
-                <Activity className="w-4 h-4 text-emerald-400" /> Documentation Metadata
+                <Activity className="w-4 h-4 text-emerald-400" /> Documentation
+                Metadata
               </h4>
               <div className="grid grid-cols-2 gap-3 text-center">
                 <div className="p-3 bg-card-bg/40 transition-colors duration-300 border border-card-border transition-colors duration-300 rounded-xl">
-                  <p className="text-lg font-black text-foreground tracking-tight transition-colors duration-300 ">1,240+</p>
+                  <p className="text-lg font-black text-foreground tracking-tight transition-colors duration-300 ">
+                    1,240+
+                  </p>
                   <p className="text-[9px] font-bold uppercase tracking-wider text-muted transition-colors duration-300 mt-0.5 flex items-center justify-center gap-1">
-                    <Award className="w-2.5 h-2.5 text-purple-400" /> Code Snippets
+                    <Award className="w-2.5 h-2.5 text-purple-400" /> Code
+                    Snippets
                   </p>
                 </div>
                 <div className="p-3 bg-card-bg/40 transition-colors duration-300 border border-card-border transition-colors duration-300 rounded-xl">
-                  <p className="text-lg font-black text-foreground tracking-tight transition-colors duration-300 ">142</p>
+                  <p className="text-lg font-black text-foreground tracking-tight transition-colors duration-300 ">
+                    142
+                  </p>
                   <p className="text-[9px] font-bold uppercase tracking-wider text-muted transition-colors duration-300 mt-0.5 flex items-center justify-center gap-1">
-                    <Globe className="w-2.5 h-2.5 text-indigo-400" /> Global Authors
+                    <Globe className="w-2.5 h-2.5 text-indigo-400" /> Global
+                    Authors
                   </p>
                 </div>
               </div>
@@ -322,7 +347,8 @@ const BlogPage = () => {
                   Join the Engineering Dispatch
                 </h4>
                 <p className="text-muted transition-colors duration-300 text-xs font-medium leading-relaxed">
-                  Get compiled telemetry updates and structural development patterns delivered directly to your profile stack.
+                  Get compiled telemetry updates and structural development
+                  patterns delivered directly to your profile stack.
                 </p>
               </div>
               <div className="space-y-2 pt-1">
@@ -337,10 +363,8 @@ const BlogPage = () => {
                 </button>
               </div>
             </div>
-
           </div>
         </div>
-
       </div>
     </div>
   );
