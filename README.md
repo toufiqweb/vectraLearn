@@ -111,5 +111,6 @@ src/
 new added
 
 //  user Role
+// ImageBB image hosting
 
 ```
