@@ -27,7 +27,8 @@ import {
   Layers,
   Sparkles,
   ArrowRight,
-  ChevronDown
+  ChevronDown,
+  Eye
 } from "lucide-react";
 
 // Curated list of categories matching user specs
@@ -465,6 +466,13 @@ export default function MyCoursesPage() {
                             {/* Quick Actions Drawer */}
                             <div className="flex items-center gap-1">
                               <Link
+                                href={`/courses/${course._id || course.id}`}
+                                className="p-2.5 rounded-xl border border-card-border bg-card-bg/60 text-muted hover:text-blue-500 hover:border-blue-500/25 hover:bg-blue-500/5 transition-all cursor-pointer"
+                                title="View Public Details"
+                              >
+                                <Eye className="w-3.5 h-3.5" />
+                              </Link>
+                              <Link
                                 href={`/dashboard/edit-course/${courseId}`}
                                 className="p-2.5 rounded-xl border border-card-border bg-card-bg/60 text-muted hover:text-[var(--brand-purple)] hover:border-[var(--brand-purple)]/25 hover:bg-[var(--brand-purple)]/5 transition-all cursor-pointer"
                                 title="Edit Course"
@@ -561,6 +569,14 @@ export default function MyCoursesPage() {
                           {/* Action buttons */}
                           <td className="py-4.5 px-6 text-right">
                             <div className="inline-flex items-center gap-2">
+                              <Link
+                                href={`/courses/${course._id || course.id}`}
+                                className="p-2 rounded-xl border border-card-border bg-card-bg text-muted hover:text-blue-500 hover:border-blue-500/20 hover:bg-blue-500/5 transition-all cursor-pointer inline-flex items-center gap-1.5 text-xs font-extrabold uppercase px-3"
+                                title="View Public Details"
+                              >
+                                <Eye className="w-3.5 h-3.5" />
+                                <span className="hidden sm:inline">View</span>
+                              </Link>
                               <Link
                                 href={`/dashboard/edit-course/${courseId}`}
                                 className="p-2 rounded-xl border border-card-border bg-card-bg text-muted hover:text-[var(--brand-purple)] hover:border-[var(--brand-purple)]/20 hover:bg-[var(--brand-purple)]/5 transition-all cursor-pointer inline-flex items-center gap-1.5 text-xs font-extrabold uppercase px-3"

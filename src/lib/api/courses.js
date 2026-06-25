@@ -35,7 +35,7 @@ export const getAllCourses = async (queryParams = {}) => {
   }
 
   const queryString = params.toString();
-  const path = queryString ? `/api/courses?${queryString}` : "/api/courses";
+  const path = queryString ? `/api/public/courses?${queryString}` : "/api/public/courses";
 
   return serverFetch(path);
 };

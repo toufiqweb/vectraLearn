@@ -6,6 +6,7 @@ import Link from "next/link";
 import { toast } from "react-toastify";
 import { useUserClientSession } from "@/lib/api/getUserServerSession";
 import { getCourseById } from "@/lib/api/courses";
+import { imageUpload } from "@/lib/imageUpload";
 import { 
   BookOpen, Plus, Trash2, ArrowRight, ArrowLeft, 
   Check, Save, DollarSign, FileText, 
@@ -19,12 +20,12 @@ export default function EditCoursePage({ params }) {
   
   const { user, isPending: isSessionPending } = useUserClientSession();
   const [isPending, startTransition] = useTransition();
-  const [activeTab, setActiveTab] = useState(0);
+  const [activeStep, setActiveStep] = useState(0);
   const [loading, setLoading] = useState(true);
   const [unauthorized, setUnauthorized] = useState(false);
 
-  // Form State
-  const [formData, setFormData] = useState({
+  // Centralized Course Form State Strategy
+  const [courseFormData, setCourseFormData] = useState({
     title: "",
     subTitle: "",
     category: "",
@@ -35,15 +36,14 @@ export default function EditCoursePage({ params }) {
     originalPrice: "",
     image: "",
     description: "",
+    whatYoullLearn: [""],
+    requirements: [""],
+    curriculum: [{ title: "", lectures: "" }],
   });
 
-  const [whatYoullLearn, setWhatYoullLearn] = useState([""]);
-  const [requirements, setRequirements] = useState([""]);
-  const [curriculum, setCurriculum] = useState([
-    { title: "", lectures: "" }
-  ]);
+  const [uploadingImage, setUploadingImage] = useState(false);
 
-  // Load course details
+  // Load course details on mount (without automatic persistence)
   useEffect(() => {
     if (!courseId || !user?.id) return;
 
@@ -61,7 +61,7 @@ export default function EditCoursePage({ params }) {
             return;
           }
 
-          setFormData({
+          setCourseFormData({
             title: course.title || "",
             subTitle: course.subTitle || "",
             category: course.category || "",
@@ -72,14 +72,12 @@ export default function EditCoursePage({ params }) {
             originalPrice: course.originalPrice || "",
             image: course.image || "",
             description: course.description || "",
-          });
-          setWhatYoullLearn(course.whatYoullLearn?.length ? course.whatYoullLearn : [""]);
-          setRequirements(course.requirements?.length ? course.requirements : [""]);
-          setCurriculum(
-            course.curriculum?.length 
+            whatYoullLearn: course.whatYoullLearn?.length ? course.whatYoullLearn : [""],
+            requirements: course.requirements?.length ? course.requirements : [""],
+            curriculum: course.curriculum?.length 
               ? course.curriculum 
               : [{ title: "", lectures: "" }]
-          );
+          });
         } else {
           toast.error("Failed to load course details.");
         }
@@ -97,78 +95,119 @@ export default function EditCoursePage({ params }) {
   // Input changes handler
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setCourseFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleImageChange = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setUploadingImage(true);
+      const data = await imageUpload(file);
+      if (data && data.url) {
+        setCourseFormData((prev) => ({ ...prev, image: data.url }));
+        toast.success("Image uploaded successfully!");
+      } else {
+        toast.error("Failed to upload image. Please try again.");
+      }
+    } catch (error) {
+      console.error("Image upload error:", error);
+      toast.error("Error uploading image to server.");
+    } finally {
+      setUploadingImage(false);
+    }
   };
 
   // Dynamic Lists Handlers
   const addListField = (type) => {
-    if (type === "learn") {
-      setWhatYoullLearn([...whatYoullLearn, ""]);
-    } else {
-      setRequirements([...requirements, ""]);
-    }
+    setCourseFormData((prev) => {
+      const listName = type === "learn" ? "whatYoullLearn" : "requirements";
+      return {
+        ...prev,
+        [listName]: [...prev[listName], ""],
+      };
+    });
   };
 
   const removeListField = (type, index) => {
-    if (type === "learn") {
-      const updated = whatYoullLearn.filter((_, i) => i !== index);
-      setWhatYoullLearn(updated.length ? updated : [""]);
-    } else {
-      const updated = requirements.filter((_, i) => i !== index);
-      setRequirements(updated.length ? updated : [""]);
-    }
+    setCourseFormData((prev) => {
+      const listName = type === "learn" ? "whatYoullLearn" : "requirements";
+      const updated = prev[listName].filter((_, i) => i !== index);
+      return {
+        ...prev,
+        [listName]: updated.length ? updated : [""],
+      };
+    });
   };
 
   const handleListFieldChange = (type, index, value) => {
-    if (type === "learn") {
-      const updated = [...whatYoullLearn];
+    setCourseFormData((prev) => {
+      const listName = type === "learn" ? "whatYoullLearn" : "requirements";
+      const updated = [...prev[listName]];
       updated[index] = value;
-      setWhatYoullLearn(updated);
-    } else {
-      const updated = [...requirements];
-      updated[index] = value;
-      setRequirements(updated);
-    }
+      return {
+        ...prev,
+        [listName]: updated,
+      };
+    });
   };
 
   // Curriculum Handlers
   const addCurriculumRow = () => {
-    setCurriculum([...curriculum, { title: "", lectures: "" }]);
+    setCourseFormData((prev) => ({
+      ...prev,
+      curriculum: [...prev.curriculum, { title: "", lectures: "" }],
+    }));
   };
 
   const removeCurriculumRow = (index) => {
-    const updated = curriculum.filter((_, i) => i !== index);
-    setCurriculum(updated.length ? updated : [{ title: "", lectures: "" }]);
+    setCourseFormData((prev) => {
+      const updated = prev.curriculum.filter((_, i) => i !== index);
+      return {
+        ...prev,
+        curriculum: updated.length ? updated : [{ title: "", lectures: "" }],
+      };
+    });
   };
 
   const handleCurriculumChange = (index, field, value) => {
-    const updated = [...curriculum];
-    updated[index][field] = value;
-    setCurriculum(updated);
+    setCourseFormData((prev) => {
+      const updated = [...prev.curriculum];
+      updated[index] = { ...updated[index], [field]: value };
+      return {
+        ...prev,
+        curriculum: updated,
+      };
+    });
   };
 
   // Validation before changing tab
   const validateTab = (tabIndex) => {
     if (tabIndex === 0) {
-      if (!formData.title.trim()) {
+      if (!courseFormData.title.trim()) {
         toast.error("Course title is required.");
         return false;
       }
-      if (!formData.category.trim()) {
+      if (!courseFormData.category.trim()) {
         toast.error("Category is required.");
         return false;
       }
     } else if (tabIndex === 1) {
-      if (!formData.lessons || Number(formData.lessons) <= 0) {
+      if (!courseFormData.lessons || Number(courseFormData.lessons) <= 0) {
         toast.error("Lessons count must be greater than 0.");
         return false;
       }
-      if (!formData.price || Number(formData.price) < 0) {
+      if (!courseFormData.price || Number(courseFormData.price) < 0) {
         toast.error("Price is required.");
         return false;
       }
-      if (!formData.image.trim()) {
-        toast.error("Course image URL is required.");
+      if (uploadingImage) {
+        toast.error("Please wait for the image upload to complete.");
+        return false;
+      }
+      if (!courseFormData.image.trim()) {
+        toast.error("Course thumbnail image is required.");
         return false;
       }
     }
@@ -176,36 +215,46 @@ export default function EditCoursePage({ params }) {
   };
 
   const handleNext = () => {
-    if (validateTab(activeTab)) {
-      setActiveTab((prev) => Math.min(prev + 1, 3));
+    if (validateTab(activeStep)) {
+      setActiveStep((prev) => Math.min(prev + 1, 3));
     }
   };
 
   const handlePrev = () => {
-    setActiveTab((prev) => Math.max(prev - 1, 0));
+    setActiveStep((prev) => Math.max(prev - 1, 0));
   };
 
-  // Submit changes
+  // Centralized submit handler (Only triggered when final save button is explicitly clicked)
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    if (e && e.preventDefault) {
+      e.preventDefault();
+    }
+    
+    // Validate first and second tabs before sending payload
     if (!validateTab(0) || !validateTab(1)) return;
 
-    if (!formData.description.trim()) {
+    if (!courseFormData.description.trim()) {
       toast.error("Please add a course description.");
-      setActiveTab(0);
+      setActiveStep(0);
       return;
     }
 
     startTransition(async () => {
       try {
         const coursePayload = {
-          ...formData,
-          lessons: Number(formData.lessons),
-          price: Number(formData.price),
-          originalPrice: formData.originalPrice ? Number(formData.originalPrice) : Number(formData.price),
-          whatYoullLearn: whatYoullLearn.filter((item) => item.trim() !== ""),
-          requirements: requirements.filter((item) => item.trim() !== ""),
-          curriculum: curriculum
+          title: courseFormData.title,
+          subTitle: courseFormData.subTitle,
+          category: courseFormData.category,
+          duration: courseFormData.duration,
+          lessons: Number(courseFormData.lessons),
+          level: courseFormData.level,
+          price: Number(courseFormData.price),
+          originalPrice: courseFormData.originalPrice ? Number(courseFormData.originalPrice) : Number(courseFormData.price),
+          image: courseFormData.image,
+          description: courseFormData.description,
+          whatYoullLearn: courseFormData.whatYoullLearn.filter((item) => item.trim() !== ""),
+          requirements: courseFormData.requirements.filter((item) => item.trim() !== ""),
+          curriculum: courseFormData.curriculum
             .map((chap, index) => ({
               id: chap.id || String(index + 1).padStart(2, "0"),
               title: chap.title,
@@ -290,8 +339,8 @@ export default function EditCoursePage({ params }) {
       <div className="grid grid-cols-4 gap-2 mb-8 bg-card-bg border border-card-border rounded-3xl p-3 shadow-sm">
         {steps.map((step, idx) => {
           const StepIcon = step.icon;
-          const isCompleted = activeTab > idx;
-          const isActive = activeTab === idx;
+          const isCompleted = activeStep > idx;
+          const isActive = activeStep === idx;
 
           return (
             <button
@@ -305,7 +354,7 @@ export default function EditCoursePage({ params }) {
                     break;
                   }
                 }
-                if (valid) setActiveTab(idx);
+                if (valid) setActiveStep(idx);
               }}
               className={`flex flex-col sm:flex-row items-center justify-center gap-2 p-2 rounded-2xl text-center sm:text-left transition-all duration-200 cursor-pointer ${
                 isActive
@@ -331,11 +380,11 @@ export default function EditCoursePage({ params }) {
       </div>
 
       {/* Form Container */}
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
         <div className="bg-card-bg border border-card-border rounded-[32px] shadow-sm p-6 md:p-8">
           
           {/* STEP 0: BASIC INFORMATION */}
-          {activeTab === 0 && (
+          {activeStep === 0 && (
             <div className="space-y-6">
               <h2 className="text-lg font-bold text-primary flex items-center gap-2 border-b border-card-border pb-3">
                 <FileText className="h-5 w-5 text-indigo-500" />
@@ -351,7 +400,7 @@ export default function EditCoursePage({ params }) {
                     type="text"
                     id="title"
                     name="title"
-                    value={formData.title}
+                    value={courseFormData.title}
                     onChange={handleInputChange}
                     placeholder="e.g., Master React.js & Next.js from Scratch"
                     className="w-full rounded-xl border border-card-border bg-slate-50/50 dark:bg-slate-900/40 px-4 py-3.5 text-sm text-primary placeholder:text-muted focus:border-[var(--brand-purple)] focus:ring-2 focus:ring-[var(--brand-purple)]/10 outline-none transition-all font-semibold"
@@ -367,7 +416,7 @@ export default function EditCoursePage({ params }) {
                     type="text"
                     id="subTitle"
                     name="subTitle"
-                    value={formData.subTitle}
+                    value={courseFormData.subTitle}
                     onChange={handleInputChange}
                     placeholder="e.g., Build production-ready web applications using App Router"
                     className="w-full rounded-xl border border-card-border bg-slate-50/50 dark:bg-slate-900/40 px-4 py-3.5 text-sm text-primary placeholder:text-muted focus:border-[var(--brand-purple)] focus:ring-2 focus:ring-[var(--brand-purple)]/10 outline-none transition-all font-semibold"
@@ -383,7 +432,7 @@ export default function EditCoursePage({ params }) {
                       type="text"
                       id="category"
                       name="category"
-                      value={formData.category}
+                      value={courseFormData.category}
                       onChange={handleInputChange}
                       placeholder="e.g., Web Development"
                       className="w-full rounded-xl border border-card-border bg-slate-50/50 dark:bg-slate-900/40 px-4 py-3.5 text-sm text-primary placeholder:text-muted focus:border-[var(--brand-purple)] focus:ring-2 focus:ring-[var(--brand-purple)]/10 outline-none transition-all font-semibold"
@@ -399,7 +448,7 @@ export default function EditCoursePage({ params }) {
                       <select
                         id="level"
                         name="level"
-                        value={formData.level}
+                        value={courseFormData.level}
                         onChange={handleInputChange}
                         className="appearance-none w-full rounded-xl border border-card-border bg-slate-50/50 dark:bg-slate-900/40 pl-4 pr-10 py-3.5 text-sm text-primary focus:border-[var(--brand-purple)] focus:ring-2 focus:ring-[var(--brand-purple)]/10 outline-none transition-all font-semibold cursor-pointer"
                       >
@@ -420,7 +469,7 @@ export default function EditCoursePage({ params }) {
                     id="description"
                     name="description"
                     rows="6"
-                    value={formData.description}
+                    value={courseFormData.description}
                     onChange={handleInputChange}
                     placeholder="Describe what the course is about, targeted audiences, and what they will gain."
                     className="w-full rounded-xl border border-card-border bg-slate-50/50 dark:bg-slate-900/40 px-4 py-3.5 text-sm text-primary placeholder:text-muted focus:border-[var(--brand-purple)] focus:ring-2 focus:ring-[var(--brand-purple)]/10 outline-none transition-all resize-y font-semibold"
@@ -432,7 +481,7 @@ export default function EditCoursePage({ params }) {
           )}
 
           {/* STEP 1: PRICING & MEDIA */}
-          {activeTab === 1 && (
+          {activeStep === 1 && (
             <div className="space-y-6">
               <h2 className="text-lg font-bold text-primary flex items-center gap-2 border-b border-card-border pb-3">
                 <DollarSign className="h-5 w-5 text-emerald-500" />
@@ -452,7 +501,7 @@ export default function EditCoursePage({ params }) {
                         id="price"
                         name="price"
                         min="0"
-                        value={formData.price}
+                        value={courseFormData.price}
                         onChange={handleInputChange}
                         placeholder="99"
                         className="w-full rounded-xl border border-card-border bg-slate-50/50 dark:bg-slate-900/40 pl-9 pr-4 py-3.5 text-sm text-primary placeholder:text-muted focus:border-[var(--brand-purple)] focus:ring-2 focus:ring-[var(--brand-purple)]/10 outline-none transition-all font-semibold"
@@ -472,7 +521,7 @@ export default function EditCoursePage({ params }) {
                         id="originalPrice"
                         name="originalPrice"
                         min="0"
-                        value={formData.originalPrice}
+                        value={courseFormData.originalPrice}
                         onChange={handleInputChange}
                         placeholder="199"
                         className="w-full rounded-xl border border-card-border bg-slate-50/50 dark:bg-slate-900/40 pl-9 pr-4 py-3.5 text-sm text-primary placeholder:text-muted focus:border-[var(--brand-purple)] focus:ring-2 focus:ring-[var(--brand-purple)]/10 outline-none transition-all font-semibold"
@@ -492,7 +541,7 @@ export default function EditCoursePage({ params }) {
                         type="text"
                         id="duration"
                         name="duration"
-                        value={formData.duration}
+                        value={courseFormData.duration}
                         onChange={handleInputChange}
                         placeholder="e.g., 24 hours or Self-paced"
                         className="w-full rounded-xl border border-card-border bg-slate-50/50 dark:bg-slate-900/40 pl-9 pr-4 py-3.5 text-sm text-primary placeholder:text-muted focus:border-[var(--brand-purple)] focus:ring-2 focus:ring-[var(--brand-purple)]/10 outline-none transition-all font-semibold"
@@ -509,7 +558,7 @@ export default function EditCoursePage({ params }) {
                       id="lessons"
                       name="lessons"
                       min="1"
-                      value={formData.lessons}
+                      value={courseFormData.lessons}
                       onChange={handleInputChange}
                       placeholder="e.g., 45"
                       className="w-full rounded-xl border border-card-border bg-slate-50/50 dark:bg-slate-900/40 px-4 py-3.5 text-sm text-primary placeholder:text-muted focus:border-[var(--brand-purple)] focus:ring-2 focus:ring-[var(--brand-purple)]/10 outline-none transition-all font-semibold"
@@ -519,26 +568,68 @@ export default function EditCoursePage({ params }) {
                 </div>
 
                 <div>
-                  <label htmlFor="image" className="block text-sm font-bold text-primary mb-2">
-                    Course Thumbnail Image URL *
+                  <label className="block text-sm font-bold text-primary mb-2">
+                    Course Thumbnail Image *
                   </label>
-                  <input
-                    type="url"
-                    id="image"
-                    name="image"
-                    value={formData.image}
-                    onChange={handleInputChange}
-                    placeholder="https://images.unsplash.com/photo-example..."
-                    className="w-full rounded-xl border border-card-border bg-slate-50/50 dark:bg-slate-900/40 px-4 py-3.5 text-sm text-primary placeholder:text-muted focus:border-[var(--brand-purple)] focus:ring-2 focus:ring-[var(--brand-purple)]/10 outline-none transition-all font-semibold"
-                    required
-                  />
+                  <div className="mt-1 flex flex-col items-center justify-center border-2 border-dashed border-card-border rounded-2xl p-6 bg-slate-50/50 dark:bg-slate-900/40 hover:bg-slate-100/50 dark:hover:bg-slate-800/60 transition-all relative">
+                    {uploadingImage ? (
+                      <div className="flex flex-col items-center gap-2 py-4">
+                        <RefreshCw className="h-8 w-8 text-blue-600 animate-spin" />
+                        <span className="text-xs font-bold text-gray-500">Uploading thumbnail...</span>
+                      </div>
+                    ) : courseFormData.image ? (
+                      <div className="flex flex-col items-center gap-3 w-full">
+                        <div className="relative w-full h-48 rounded-xl overflow-hidden border border-card-border">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={courseFormData.image}
+                            alt="Course preview"
+                            className="object-cover w-full h-full"
+                          />
+                        </div>
+                        <div className="flex gap-2">
+                          <label className="px-4 py-2 bg-white dark:bg-zinc-800 border border-card-border rounded-xl text-xs font-bold text-gray-700 dark:text-gray-200 cursor-pointer hover:bg-slate-50 dark:hover:bg-zinc-700 transition-colors">
+                            Change Image
+                            <input
+                              type="file"
+                              accept="image/*"
+                              className="hidden"
+                              onChange={handleImageChange}
+                            />
+                          </label>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setCourseFormData(prev => ({ ...prev, image: "" }));
+                            }}
+                            className="px-4 py-2 bg-rose-50 dark:bg-rose-950/20 hover:bg-rose-100 dark:hover:bg-rose-950/40 text-rose-600 border border-rose-200 dark:border-rose-950/30 rounded-xl text-xs font-bold transition-colors cursor-pointer"
+                          >
+                            Remove
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <label className="flex flex-col items-center justify-center cursor-pointer w-full py-4">
+                        <Plus className="h-8 w-8 text-gray-400 mb-2" />
+                        <span className="text-sm font-bold text-gray-600 dark:text-gray-300">Upload Course Image</span>
+                        <span className="text-xs text-gray-400 mt-1">PNG, JPG, JPEG up to 10MB</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={handleImageChange}
+                          required={!courseFormData.image}
+                        />
+                      </label>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
           )}
 
           {/* STEP 2: REQUIREMENTS & WHAT YOU'LL LEARN */}
-          {activeTab === 2 && (
+          {activeStep === 2 && (
             <div className="space-y-8">
               <h2 className="text-lg font-bold text-primary flex items-center gap-2 border-b border-card-border pb-3">
                 <HelpCircle className="h-5 w-5 text-indigo-500" />
@@ -561,7 +652,7 @@ export default function EditCoursePage({ params }) {
                 </div>
                 
                 <div className="space-y-3">
-                  {whatYoullLearn.map((val, idx) => (
+                  {courseFormData.whatYoullLearn.map((val, idx) => (
                     <div key={idx} className="flex gap-2 items-center">
                       <input
                         type="text"
@@ -574,7 +665,7 @@ export default function EditCoursePage({ params }) {
                         type="button"
                         onClick={() => removeListField("learn", idx)}
                         className="p-2.5 text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/20 rounded-xl transition-all cursor-pointer"
-                        disabled={whatYoullLearn.length === 1 && !val}
+                        disabled={courseFormData.whatYoullLearn.length === 1 && !val}
                       >
                         <Trash2 className="h-4.5 w-4.5" />
                       </button>
@@ -599,7 +690,7 @@ export default function EditCoursePage({ params }) {
                 </div>
                 
                 <div className="space-y-3">
-                  {requirements.map((val, idx) => (
+                  {courseFormData.requirements.map((val, idx) => (
                     <div key={idx} className="flex gap-2 items-center">
                       <input
                         type="text"
@@ -612,7 +703,7 @@ export default function EditCoursePage({ params }) {
                         type="button"
                         onClick={() => removeListField("req", idx)}
                         className="p-2.5 text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/20 rounded-xl transition-all cursor-pointer"
-                        disabled={requirements.length === 1 && !val}
+                        disabled={courseFormData.requirements.length === 1 && !val}
                       >
                         <Trash2 className="h-4.5 w-4.5" />
                       </button>
@@ -624,7 +715,7 @@ export default function EditCoursePage({ params }) {
           )}
 
           {/* STEP 3: CURRICULUM */}
-          {activeTab === 3 && (
+          {activeStep === 3 && (
             <div className="space-y-6">
               <h2 className="text-lg font-bold text-primary flex items-center gap-2 border-b border-card-border pb-3">
                 <BookOpen className="h-5 w-5 text-indigo-500" />
@@ -646,7 +737,7 @@ export default function EditCoursePage({ params }) {
                 </div>
 
                 <div className="space-y-4">
-                  {curriculum.map((chap, idx) => (
+                  {courseFormData.curriculum.map((chap, idx) => (
                     <div key={idx} className="flex flex-col sm:flex-row gap-3 items-start sm:items-center bg-slate-50/50 dark:bg-slate-900/20 border border-card-border p-4 rounded-2xl relative group">
                       <div className="flex-1 w-full">
                         <input
@@ -674,7 +765,7 @@ export default function EditCoursePage({ params }) {
                         type="button"
                         onClick={() => removeCurriculumRow(idx)}
                         className="p-2 text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/20 rounded-xl transition-all cursor-pointer self-end sm:self-auto"
-                        disabled={curriculum.length === 1 && !chap.title}
+                        disabled={courseFormData.curriculum.length === 1 && !chap.title}
                       >
                         <Trash2 className="h-4.5 w-4.5" />
                       </button>
@@ -690,14 +781,14 @@ export default function EditCoursePage({ params }) {
             <button
               type="button"
               onClick={handlePrev}
-              disabled={activeTab === 0 || isPending}
+              disabled={activeStep === 0 || isPending}
               className="px-5 py-3 rounded-2xl border border-card-border text-primary font-bold text-xs uppercase tracking-wider transition-all disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer flex items-center gap-2"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>Back</span>
             </button>
 
-            {activeTab < 3 ? (
+            {activeStep < 3 ? (
               <button
                 type="button"
                 onClick={handleNext}
@@ -709,8 +800,9 @@ export default function EditCoursePage({ params }) {
               </button>
             ) : (
               <button
-                type="submit"
+                type="button"
                 disabled={isPending}
+                onClick={handleSubmit}
                 className="px-6 py-3.5 rounded-2xl bg-gradient-to-r from-[var(--primary-gradient-start)] to-[var(--primary-gradient-end)] text-white font-bold text-xs uppercase tracking-wider transition-all cursor-pointer shadow-lg shadow-indigo-600/10 hover:shadow-indigo-600/25 flex items-center gap-2 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isPending ? (

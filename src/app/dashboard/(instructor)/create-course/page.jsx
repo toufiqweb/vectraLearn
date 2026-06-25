@@ -6,9 +6,10 @@ import { toast } from "react-toastify";
 import { 
   BookOpen, Plus, Trash2, ArrowRight, ArrowLeft, 
   Check, Save, DollarSign, Layers, FileText, 
-  HelpCircle, Settings, Award, Clock
+  HelpCircle, Settings, Award, Clock, RefreshCw
 } from "lucide-react";
 import { createCourse } from "@/lib/actions/courses";
+import { imageUpload } from "@/lib/imageUpload";
 
 export default function CreateCoursePage() {
   const router = useRouter();
@@ -39,6 +40,29 @@ export default function CreateCoursePage() {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const [uploadingImage, setUploadingImage] = useState(false);
+
+  const handleImageChange = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setUploadingImage(true);
+      const data = await imageUpload(file);
+      if (data && data.url) {
+        setFormData((prev) => ({ ...prev, image: data.url }));
+        toast.success("Image uploaded successfully!");
+      } else {
+        toast.error("Failed to upload image. Please try again.");
+      }
+    } catch (error) {
+      console.error("Image upload error:", error);
+      toast.error("Error uploading image to server.");
+    } finally {
+      setUploadingImage(false);
+    }
   };
 
   // Dynamic lists handlers (What You'll Learn & Requirements)
@@ -108,8 +132,12 @@ export default function CreateCoursePage() {
         toast.error("Price is required.");
         return false;
       }
+      if (uploadingImage) {
+        toast.error("Please wait for the image upload to complete.");
+        return false;
+      }
       if (!formData.image.trim()) {
-        toast.error("Course image URL is required.");
+        toast.error("Course thumbnail image is required.");
         return false;
       }
     }
@@ -415,19 +443,61 @@ export default function CreateCoursePage() {
                 </div>
 
                 <div>
-                  <label htmlFor="image" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                    Course Thumbnail Image URL *
+                  <label className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                    Course Thumbnail Image *
                   </label>
-                  <input
-                    type="url"
-                    id="image"
-                    name="image"
-                    value={formData.image}
-                    onChange={handleInputChange}
-                    placeholder="https://images.unsplash.com/photo-example..."
-                    className="w-full rounded-xl border border-gray-200 dark:border-zinc-800 bg-gray-50/50 dark:bg-zinc-800/40 px-4 py-3 text-sm text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all"
-                    required
-                  />
+                  <div className="mt-1 flex flex-col items-center justify-center border-2 border-dashed border-gray-300 dark:border-zinc-800 rounded-2xl p-6 bg-gray-50/50 dark:bg-zinc-800/40 hover:bg-gray-100/50 dark:hover:bg-zinc-800/60 transition-all relative">
+                    {uploadingImage ? (
+                      <div className="flex flex-col items-center gap-2 py-4">
+                        <RefreshCw className="h-8 w-8 text-blue-600 animate-spin" />
+                        <span className="text-xs font-bold text-gray-500">Uploading thumbnail...</span>
+                      </div>
+                    ) : formData.image ? (
+                      <div className="flex flex-col items-center gap-3 w-full">
+                        <div className="relative w-full h-48 rounded-xl overflow-hidden border border-gray-200 dark:border-zinc-800">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={formData.image}
+                            alt="Course preview"
+                            className="object-cover w-full h-full"
+                          />
+                        </div>
+                        <div className="flex gap-2">
+                          <label className="px-4 py-2 bg-white dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded-xl text-xs font-bold text-gray-700 dark:text-gray-200 cursor-pointer hover:bg-gray-50 dark:hover:bg-zinc-700 transition-colors">
+                            Change Image
+                            <input
+                              type="file"
+                              accept="image/*"
+                              className="hidden"
+                              onChange={handleImageChange}
+                            />
+                          </label>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setFormData(prev => ({ ...prev, image: "" }));
+                            }}
+                            className="px-4 py-2 bg-rose-50 dark:bg-rose-950/20 hover:bg-rose-100 dark:hover:bg-rose-950/40 text-rose-600 border border-rose-200 dark:border-rose-950/30 rounded-xl text-xs font-bold transition-colors cursor-pointer"
+                          >
+                            Remove
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <label className="flex flex-col items-center justify-center cursor-pointer w-full py-4">
+                        <Plus className="h-8 w-8 text-gray-400 mb-2" />
+                        <span className="text-sm font-bold text-gray-600 dark:text-gray-300">Upload Course Image</span>
+                        <span className="text-xs text-gray-400 mt-1">PNG, JPG, JPEG up to 10MB</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={handleImageChange}
+                          required={!formData.image}
+                        />
+                      </label>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
