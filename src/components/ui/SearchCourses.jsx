@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  Search,
-  RotateCcw,
-  SlidersHorizontal,
-} from "lucide-react";
-import React from "react";
+import { Search, RotateCcw, SlidersHorizontal } from "lucide-react";
 
 const CATEGORIES = [
   "All",
@@ -18,12 +13,7 @@ const CATEGORIES = [
   "Business",
 ];
 
-const LEVELS = [
-  "All",
-  "Beginner",
-  "Intermediate",
-  "Advanced",
-];
+const LEVELS = ["All", "Beginner", "Intermediate", "Advanced"];
 
 const SearchCourses = ({
   search,
@@ -62,26 +52,18 @@ const SearchCourses = ({
         {/* Header */}
         <div className="mb-6 flex items-center gap-3">
           <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-violet-500/20 bg-violet-500/10">
-            <SlidersHorizontal
-              size={18}
-              className="text-violet-400"
-            />
+            <SlidersHorizontal size={18} className="text-violet-400" />
           </div>
 
           <div>
-            <h3 className="font-semibold text-primary">
-              Filter Courses
-            </h3>
+            <h3 className="font-semibold text-primary">Filter Courses</h3>
             <p className="text-sm text-muted">
               Search and discover your perfect course
             </p>
           </div>
         </div>
 
-        <form
-          onSubmit={handleSearch}
-          className="grid gap-4 lg:grid-cols-5"
-        >
+        <form onSubmit={handleSearch} className="grid gap-4 lg:grid-cols-5">
           {/* Search */}
           <div className="relative lg:col-span-2">
             <Search
@@ -93,9 +75,7 @@ const SearchCourses = ({
               name="search"
               type="text"
               value={search}
-              onChange={(e) =>
-                setSearch(e.target.value)
-              }
+              onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by title or instructor..."
               className="h-12 w-full rounded-xl border border-card-border transition-colors duration-300 bg-background/50 pl-11 pr-4 outline-none transition-all focus:border-violet-500/40"
             />
@@ -104,16 +84,11 @@ const SearchCourses = ({
           {/* Category */}
           <select
             value={category}
-            onChange={(e) =>
-              setCategory(e.target.value)
-            }
+            onChange={(e) => setCategory(e.target.value)}
             className="h-12 rounded-xl border border-card-border transition-colors duration-300 bg-background/50 px-4 outline-none focus:border-violet-500/40"
           >
             {CATEGORIES.map((item) => (
-              <option
-                key={item}
-                value={item}
-              >
+              <option key={item} value={item}>
                 {item}
               </option>
             ))}
@@ -122,16 +97,11 @@ const SearchCourses = ({
           {/* Level */}
           <select
             value={level}
-            onChange={(e) =>
-              setLevel(e.target.value)
-            }
+            onChange={(e) => setLevel(e.target.value)}
             className="h-12 rounded-xl border border-card-border transition-colors duration-300 bg-background/50 px-4 outline-none focus:border-violet-500/40"
           >
             {LEVELS.map((item) => (
-              <option
-                key={item}
-                value={item}
-              >
+              <option key={item} value={item}>
                 {item}
               </option>
             ))}
@@ -140,24 +110,14 @@ const SearchCourses = ({
           {/* Sort */}
           <select
             value={sort}
-            onChange={(e) =>
-              setSort(e.target.value)
-            }
+            onChange={(e) => setSort(e.target.value)}
             className="h-12 rounded-xl border border-card-border transition-colors duration-300 bg-background/50 px-4 outline-none focus:border-violet-500/40"
           >
             <option value="">Sort By</option>
-            <option value="rating">
-              Highest Rating
-            </option>
-            <option value="students">
-              Most Students
-            </option>
-            <option value="price-low">
-              Price Low → High
-            </option>
-            <option value="price-high">
-              Price High → Low
-            </option>
+            <option value="rating">Highest Rating</option>
+            <option value="students">Most Students</option>
+            <option value="price-low">Price Low → High</option>
+            <option value="price-high">Price High → Low</option>
           </select>
 
           {/* Buttons */}
@@ -182,24 +142,20 @@ const SearchCourses = ({
 
         {/* Category Pills */}
         <div className="mt-6 flex flex-wrap gap-2">
-          {CATEGORIES
-            .filter((cat) => cat !== "All")
-            .map((cat) => (
-              <button
-                key={cat}
-                type="button"
-                onClick={() =>
-                  setCategory(cat)
-                }
-                className={`rounded-full px-4 py-2 text-sm transition ${
-                  category === cat
-                    ? "bg-violet-600 text-white"
-                    : "border border-card-border transition-colors duration-300 hover:border-violet-500/30"
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
+          {CATEGORIES.filter((cat) => cat !== "All").map((cat) => (
+            <button
+              key={cat}
+              type="button"
+              onClick={() => setCategory(cat)}
+              className={`rounded-full px-4 py-2 text-sm transition ${
+                category === cat
+                  ? "bg-violet-600 text-white"
+                  : "border border-card-border transition-colors duration-300 hover:border-violet-500/30"
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
         </div>
       </div>
     </div>

@@ -5,7 +5,10 @@ import { Loader2 } from "lucide-react";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 
-import { getAllAdminCoursesClient, approveOrRejectCourse } from "@/lib/api/courses";
+import {
+  getAllAdminCoursesClient,
+  approveOrRejectCourse,
+} from "@/lib/api/courses";
 import { deleteCourse } from "@/lib/actions/courses";
 import Pagination from "@/components/ui/Pagination";
 import AdminCoursesTable from "./AdminCoursesTable";
@@ -17,7 +20,11 @@ export default function AdminCoursesContainer({ user }) {
   const [totalPages, setTotalPages] = useState(1);
   const [isPending, startTransition] = useTransition();
 
-  const [activeMenu, setActiveMenu] = useState({ courseId: null, top: 0, right: 0 });
+  const [activeMenu, setActiveMenu] = useState({
+    courseId: null,
+    top: 0,
+    right: 0,
+  });
 
   useEffect(() => {
     const fetchCourses = async (page) => {
@@ -59,7 +66,9 @@ export default function AdminCoursesContainer({ user }) {
           const res = await deleteCourse(courseId, user.id);
           if (res.success) {
             toast.success("Course deleted successfully.");
-            setCourses((prev) => prev.filter((c) => (c._id || c.id) !== courseId));
+            setCourses((prev) =>
+              prev.filter((c) => (c._id || c.id) !== courseId),
+            );
             if (courses.length <= 1 && currentPage > 1) {
               setCurrentPage((prev) => prev - 1);
             }
@@ -97,8 +106,10 @@ export default function AdminCoursesContainer({ user }) {
 
     const result = await Swal.fire({
       title: titleMap[actionType] || "Confirm Action?",
-      text: textMap[actionType] || `Are you sure you want to ${actionType} "${courseTitle}"?`,
-      icon: (isApprove || isPublish) ? "success" : "warning",
+      text:
+        textMap[actionType] ||
+        `Are you sure you want to ${actionType} "${courseTitle}"?`,
+      icon: isApprove || isPublish ? "success" : "warning",
       showCancelButton: true,
       confirmButtonColor: colorMap[actionType] || "#6b7280",
       cancelButtonColor: "#6b7280",
@@ -111,14 +122,14 @@ export default function AdminCoursesContainer({ user }) {
 
         if (data.success) {
           toast.success(data.message || `Course successfully ${actionType}d.`);
-          
+
           setCourses((prev) =>
             prev.map((c) => {
               if ((c._id || c.id) === courseId) {
                 return { ...c, status: data.status };
               }
               return c;
-            })
+            }),
           );
         } else {
           toast.error(data.message || "Failed to process action.");
