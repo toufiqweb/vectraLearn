@@ -7,8 +7,16 @@ const client = new MongoClient(process.env.MONGO_URI);
 const db = client.db(process.env.DB_NAME);
 
 export const auth = betterAuth({
-  // secret: process.env.BETTER_AUTH_SECRET,
-  // trustedOrigins: ["http://localhost:3000"],
+  // REQUIRED: Uncomment secret to ensure sessions are signed with a stable key.
+  // Without this, every cold start or redeploy invalidates all existing sessions.
+  secret: process.env.BETTER_AUTH_SECRET,
+
+  // REQUIRED: List all allowed origins for cross-origin auth requests.
+  // Add your deployed Vercel client domain here via BETTER_AUTH_URL env var.
+  trustedOrigins: [
+    "http://localhost:3000",
+    process.env.BETTER_AUTH_URL,
+  ].filter(Boolean),
 
   emailAndPassword: {
     enabled: true,
