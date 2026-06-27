@@ -5,7 +5,13 @@ import { Star, X } from "lucide-react";
 import { toast } from "react-toastify";
 import { rateCourseAction } from "@/lib/actions/courseRating";
 
-export default function CourseRatingModal({ isOpen, onClose, courseId, courseTitle, onRatingSuccess }) {
+export default function CourseRatingModal({
+  isOpen,
+  onClose,
+  courseId,
+  courseTitle,
+  onRatingSuccess,
+}) {
   const [hoveredRating, setHoveredRating] = useState(0);
   const [selectedRating, setSelectedRating] = useState(0);
   const [reviewMessage, setReviewMessage] = useState("");
@@ -47,9 +53,8 @@ export default function CourseRatingModal({ isOpen, onClose, courseId, courseTit
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 backdrop-blur-sm transition-opacity">
       <div className="relative w-full max-w-sm bg-white dark:bg-zinc-900 rounded-2xl shadow-xl p-6 m-4 border border-gray-200 dark:border-zinc-800 animate-in fade-in zoom-in-95 duration-200">
-        
         {/* Close Button */}
-        <button 
+        <button
           onClick={onClose}
           className="absolute top-4 right-4 p-2 rounded-full bg-gray-100 dark:bg-zinc-800 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
         >
@@ -75,12 +80,12 @@ export default function CourseRatingModal({ isOpen, onClose, courseId, courseTit
                 onMouseLeave={() => setHoveredRating(0)}
                 onClick={() => setSelectedRating(star)}
               >
-                <Star 
+                <Star
                   className={`w-9 h-9 sm:w-10 sm:h-10 transition-colors duration-200 ${
                     star <= (hoveredRating || selectedRating)
                       ? "text-amber-500 fill-amber-500 drop-shadow-sm"
                       : "text-gray-200 dark:text-zinc-700"
-                  }`} 
+                  }`}
                   strokeWidth={1.5}
                 />
               </button>
