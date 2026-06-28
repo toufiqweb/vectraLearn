@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import heroImage from "@/assets/hero-image.png";
 
 const staggerContainer = {
   hidden: { opacity: 0 },
@@ -147,7 +148,7 @@ export default function Banner() {
               >
                 <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[90%] sm:w-[85%] h-full">
                   <Image
-                    src="/hero-image.png"
+                    src={heroImage}
                     alt="Student holding books"
                     fill
                     priority

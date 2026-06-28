@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import CourseCard from "../../../components/ui/CourseCard";
 import SearchCourses from "../../../components/ui/SearchCourses";
 import Pagination from "../../../components/ui/Pagination";
-import { Sparkles, ArrowLeft, ArrowRight } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import { getAllCourses } from "@/lib/api/courses";
 
 // Debounce hook
@@ -83,23 +83,22 @@ const CoursesPageClient = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8 my-10 pt-28 lg:pt-36 space-y-12 max-w-7xl">
-      {/* Header — Aligned with Deep Space Branding Principles */}
-      <div className="mb-10 text-center relative">
-        <div className="inline-flex items-center gap-2 rounded-full border border-purple-500/30 bg-purple-500/10 px-4 py-1.5 text-xs font-bold text-purple-300 uppercase tracking-wider shadow-[0_0_15px_rgba(168,85,247,0.1)]">
-          <Sparkles size={13} className="text-[#8b7eff]" />
-          <span>Explore Knowledge</span>
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 my-10 py-24 space-y-12 max-w-7xl">
+      {/* Header */}
+      <div className="mb-10 text-center relative flex flex-col items-center">
+        <div className="inline-flex items-center gap-2 rounded-full bg-brand-cyan/10 px-4 py-1.5 mb-6">
+          <Sparkles size={14} className="text-brand-cyan fill-brand-cyan" />
+          <span className="text-xs font-bold text-brand-cyan uppercase tracking-wider">
+            Explore Knowledge
+          </span>
         </div>
 
-        <h1 className="mt-5 text-4xl font-black text-foreground sm:text-5xl lg:text-6xl tracking-tight leading-none transition-colors duration-300 ">
+        <h1 className="section-title mb-6 leading-tight max-w-3xl">
           Discover Our
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#5643ff] to-[#8b7eff]">
-            {" "}
-            Premium Courses
-          </span>
+          <span className="text-main-gradient"> Premium Courses</span>
         </h1>
 
-        <p className="mx-auto mt-5 max-w-2xl text-sm sm:text-base text-muted transition-colors duration-300 font-medium leading-relaxed">
+        <p className="section-desc mb-8 max-w-2xl mx-auto">
           Explore industry-focused courses, learn from expert instructors, and
           build real-world skills to accelerate your career journey.
         </p>
@@ -127,7 +126,7 @@ const CoursesPageClient = () => {
           [...Array(coursesPerPage)].map((_, i) => (
             <div
               key={i}
-              className="bg-card-bg/40 border border-card-border transition-colors duration-300 rounded-[32px] p-4 flex flex-col h-[400px]"
+              className="glass-card rounded-[32px] p-4 flex flex-col h-[400px]"
             >
               <div className="w-full h-48 bg-foreground/5 rounded-2xl animate-pulse mb-4"></div>
               <div className="w-24 h-4 bg-foreground/5 rounded-full animate-pulse mb-4"></div>
@@ -148,18 +147,18 @@ const CoursesPageClient = () => {
           ))
         ) : (
           /* Empty State Node Block Integration Form matching design rules */
-          <div className="col-span-full text-center py-20 px-4 rounded-[32px] border border-card-border transition-colors duration-300 bg-card-bg/40 transition-colors duration-300 backdrop-blur-2xl max-w-md mx-auto shadow-xl">
-            <h2 className="text-xl font-black text-foreground tracking-tight transition-colors duration-300 ">
+          <div className="col-span-full text-center py-20 px-4 rounded-[32px] glass-card max-w-md mx-auto">
+            <h2 className="text-xl font-black text-foreground tracking-tight">
               No Courses Found
             </h2>
 
-            <p className="text-muted transition-colors duration-300 text-xs sm:text-sm font-medium mt-2">
+            <p className="text-muted text-xs sm:text-sm font-medium mt-2">
               Try searching with another keyword or tag
             </p>
 
             <button
               onClick={handleReset}
-              className="mt-6 px-6 py-2.5 text-xs font-bold rounded-xl border border-card-border transition-colors duration-300 bg-card-bg/60 transition-colors duration-300 hover:bg-foreground/5 transition-colors duration-300 text-primary transition-colors duration-300 transition-all duration-200 cursor-pointer active:scale-[0.99]"
+              className="mt-6 px-6 py-2.5 text-xs font-bold rounded-xl border border-card-border bg-card-bg/60 hover:bg-foreground/5 text-primary transition-all duration-200 cursor-pointer active:scale-[0.99]"
             >
               Reset Filters
             </button>

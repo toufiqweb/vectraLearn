@@ -27,6 +27,10 @@
   --color-brand-ocean: var(--brand-ocean);
   --color-brand-cyan: var(--brand-cyan);
   --color-brand-mint: var(--brand-mint);
+
+  /* Shadows */
+  --shadow-card: var(--shadow-card);
+  --shadow-glow: var(--shadow-glow);
 }
 
 @layer base {
