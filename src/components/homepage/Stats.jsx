@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
+import globeImg from "@/assets/globe.png";
 
 const stats = [
   {
@@ -79,7 +80,7 @@ export default function StatsSection() {
           <div className="relative hidden lg:block">
             <div className="relative flex items-center justify-center mx-auto h-[600px] w-[600px] rounded-full">
               <Image
-                src="/globe.png"
+                src={globeImg}
                 alt="Globe"
                 width={500}
                 height={500}
