@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Star, X } from "lucide-react";
 import { toast } from "react-toastify";
 import { rateCourseAction } from "@/lib/actions/courseRating";
@@ -11,11 +11,21 @@ export default function CourseRatingModal({
   courseId,
   courseTitle,
   onRatingSuccess,
+  initialRating = 0,
+  initialMessage = "",
 }) {
   const [hoveredRating, setHoveredRating] = useState(0);
-  const [selectedRating, setSelectedRating] = useState(0);
-  const [reviewMessage, setReviewMessage] = useState("");
+  const [selectedRating, setSelectedRating] = useState(initialRating);
+  const [reviewMessage, setReviewMessage] = useState(initialMessage);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      setSelectedRating(initialRating);
+      setReviewMessage(initialMessage);
+      setIsSubmitting(false);
+    }
+  }, [isOpen, initialRating, initialMessage]);
 
   if (!isOpen) return null;
 

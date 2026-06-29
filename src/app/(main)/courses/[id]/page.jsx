@@ -19,6 +19,7 @@ import { getCourseById, getCourseReviews } from "@/lib/api/courses";
 import { FaStar } from "react-icons/fa";
 import { getUserServerSession } from "@/lib/actions/getUserServerSession";
 import { serverFetch } from "@/lib/core/server";
+import CourseReviewClientAction from "@/components/ui/CourseReviewClientAction";
 
 const learnPoints = [
   "Build real-world projects from scratch",
@@ -267,10 +268,20 @@ const CourseDetailPage = async ({ params }) => {
 
             {/* Student Reviews Section (Moved to main column for better layout) */}
             <div className="space-y-4">
-              <h2 className="section-title flex items-center gap-2.5 !text-2xl">
-                <Star className="w-6 h-6 text-brand-mint fill-brand-mint" />
-                Student Reviews
-              </h2>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <h2 className="section-title flex items-center gap-2.5 !text-2xl m-0">
+                  <Star className="w-6 h-6 text-brand-mint fill-brand-mint" />
+                  Student Reviews
+                </h2>
+                <CourseReviewClientAction 
+                  isEnrolled={isEnrolled} 
+                  courseId={course._id || course.id} 
+                  courseTitle={course.title} 
+                  existingReview={dynamicReviews.find(
+                    r => (r.userId?.toString() === user?.id) || (r.userId?._id?.toString() === user?.id)
+                  )}
+                />
+              </div>
               <div className="glass-card rounded-3xl p-6 md:p-8">
                 <div className="grid sm:grid-cols-2 gap-4 max-h-[400px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-card-border">
                   {dynamicReviews.length > 0 ? (

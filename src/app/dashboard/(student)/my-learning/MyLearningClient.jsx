@@ -123,7 +123,8 @@ export default function MyLearningClient({ initialData, currentPage }) {
                 key={enrollment._id} 
                 course={courseData} 
                 allowRating={true} 
-                onRateClick={(course) => setRatingModalCourse(course)}
+                onRateClick={(course) => setRatingModalCourse({ ...course, existingReview: enrollment.existingReview })}
+                existingReview={enrollment.existingReview}
               />
             );
           })}
@@ -190,10 +191,10 @@ export default function MyLearningClient({ initialData, currentPage }) {
                       <td className="px-6 py-4 whitespace-nowrap text-right">
                         <div className="flex items-center justify-end gap-2">
                           <button
-                            onClick={() => setRatingModalCourse(courseData)}
+                            onClick={() => setRatingModalCourse({ ...courseData, existingReview: enrollment.existingReview })}
                             className="inline-flex items-center justify-center rounded-xl bg-[#fbbf24]/10 hover:bg-[#fbbf24]/20 border border-[#fbbf24]/20 text-[#fbbf24] p-2 transition-all duration-300"
-                            aria-label="Rate this course"
-                            title="Rate Course"
+                            aria-label={enrollment.existingReview ? "Update Review" : "Rate this course"}
+                            title={enrollment.existingReview ? "Update Review" : "Rate Course"}
                           >
                             <Star className="h-4 w-4" />
                           </button>
@@ -229,6 +230,8 @@ export default function MyLearningClient({ initialData, currentPage }) {
         courseId={ratingModalCourse?._id || ratingModalCourse?.id}
         courseTitle={ratingModalCourse?.title}
         onRatingSuccess={handleRatingSuccess}
+        initialRating={ratingModalCourse?.existingReview?.rating || 0}
+        initialMessage={ratingModalCourse?.existingReview?.message || ""}
       />
     </div>
   );

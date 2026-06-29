@@ -33,7 +33,7 @@ const item = {
   },
 };
 
-export default function CourseCard({ course, allowRating = false, onRateClick }) {
+export default function CourseCard({ course, allowRating = false, onRateClick, existingReview }) {
   const courseId = course.id || course._id;
   const {
     title,
@@ -180,8 +180,8 @@ export default function CourseCard({ course, allowRating = false, onRateClick })
                   if (onRateClick) onRateClick(course); 
                 }}
                 className="inline-flex items-center justify-center rounded-lg bg-amber-50 dark:bg-amber-500/10 hover:bg-amber-100 dark:hover:bg-amber-500/20 text-amber-600 dark:text-amber-400 p-2.5 transition-colors duration-300"
-                aria-label="Rate this course"
-                title="Rate Course"
+                aria-label={existingReview ? "Update Review" : "Rate this course"}
+                title={existingReview ? "Update Review" : "Rate Course"}
               >
                 <Star className="h-4 w-4" />
               </button>
