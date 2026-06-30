@@ -8,20 +8,15 @@ export async function proxy(request) {
     headers: await headers(), // you need to pass the headers object.
   });
 
-   if (!session) {
+  if (!session) {
     const loginUrl = new URL("/signin", request.url);
 
-    
-    loginUrl.searchParams.set(
-      "callbackUrl",
-      request.nextUrl.pathname
-    );
+    loginUrl.searchParams.set("callbackUrl", request.nextUrl.pathname);
 
     return NextResponse.redirect(loginUrl);
   }
 }
 
-
 export const config = {
-  matcher: ["/profile", "/courses/:path+"],
+  matcher: ["/checkout", "/dashboard"],
 };

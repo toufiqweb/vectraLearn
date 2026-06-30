@@ -5,10 +5,19 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import mainLightModeLogo from "@/assets/mainLightModeLogo.png";
-import mainlogo from "@/assets/mainlogo.png";
+import mainlogo from "@/assets/mainLogo2.png";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
-import { Mail, Lock, ShieldCheck, ArrowRight, Eye, LayoutDashboard, PlayCircle, Users } from "lucide-react";
+import {
+  Mail,
+  Lock,
+  ShieldCheck,
+  ArrowRight,
+  Eye,
+  LayoutDashboard,
+  PlayCircle,
+  Users,
+} from "lucide-react";
 import { useState } from "react";
 
 const SignInPage = () => {
@@ -75,19 +84,33 @@ const SignInPage = () => {
         <div className="absolute top-0 left-0 w-full h-full bg-main-gradient opacity-5"></div>
         <div className="absolute -top-32 -left-32 w-96 h-96 bg-brand-mint/20 rounded-full blur-3xl"></div>
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-brand-cyan/10 rounded-full blur-3xl"></div>
-        
+
         <div className="relative z-10 w-full max-w-lg">
           {/* Logo */}
           <Link href="/" className="inline-block mb-12">
-            <Image src={mainLightModeLogo} alt="VectraLern" width={220} height={60} className="dark:hidden block w-[180px] h-auto" />
-            <Image src={mainlogo} alt="VectraLern" width={220} height={60} className="hidden dark:block w-[180px] h-auto" />
+            <Image
+              src={mainLightModeLogo}
+              alt="VectraLern"
+              width={220}
+              height={60}
+              className="dark:hidden block w-[180px] h-auto"
+            />
+            <Image
+              src={mainlogo}
+              alt="VectraLern"
+              width={220}
+              height={60}
+              className="hidden dark:block w-[180px] h-auto"
+            />
           </Link>
-          
+
           <h1 className="text-4xl lg:text-5xl font-black text-foreground leading-tight mb-6 tracking-tight">
-            Unlock Your Potential with <span className="text-main-gradient">Expert-Led</span> Courses.
+            Unlock Your Potential with{" "}
+            <span className="text-main-gradient">Expert-Led</span> Courses.
           </h1>
           <p className="text-lg text-muted font-medium mb-12">
-            Join thousands of learners worldwide. Upgrade your skills and accelerate your career growth with interactive learning.
+            Join thousands of learners worldwide. Upgrade your skills and
+            accelerate your career growth with interactive learning.
           </p>
 
           {/* Feature list */}
@@ -97,8 +120,12 @@ const SignInPage = () => {
                 <Users size={24} />
               </div>
               <div>
-                <h4 className="font-bold text-foreground text-sm">Top Instructors</h4>
-                <p className="text-xs text-muted font-medium">Learn from the best industry experts globally.</p>
+                <h4 className="font-bold text-foreground text-sm">
+                  Top Instructors
+                </h4>
+                <p className="text-xs text-muted font-medium">
+                  Learn from the best industry experts globally.
+                </p>
               </div>
             </div>
 
@@ -107,8 +134,12 @@ const SignInPage = () => {
                 <PlayCircle size={24} />
               </div>
               <div>
-                <h4 className="font-bold text-foreground text-sm">Interactive Content</h4>
-                <p className="text-xs text-muted font-medium">Engage with high-quality videos and assignments.</p>
+                <h4 className="font-bold text-foreground text-sm">
+                  Interactive Content
+                </h4>
+                <p className="text-xs text-muted font-medium">
+                  Engage with high-quality videos and assignments.
+                </p>
               </div>
             </div>
 
@@ -117,8 +148,12 @@ const SignInPage = () => {
                 <LayoutDashboard size={24} />
               </div>
               <div>
-                <h4 className="font-bold text-foreground text-sm">Track Progress</h4>
-                <p className="text-xs text-muted font-medium">Monitor your learning journey efficiently.</p>
+                <h4 className="font-bold text-foreground text-sm">
+                  Track Progress
+                </h4>
+                <p className="text-xs text-muted font-medium">
+                  Monitor your learning journey efficiently.
+                </p>
               </div>
             </div>
           </div>
@@ -127,13 +162,24 @@ const SignInPage = () => {
 
       {/* Right Side - Form */}
       <div className="w-full lg:w-1/2 flex flex-col justify-center p-6 sm:p-12 md:px-24 bg-background relative">
-        
         {/* Mobile Logo */}
         <div className="absolute top-8 left-6 sm:left-12 lg:hidden z-20">
-            <Link href="/">
-              <Image src={mainLightModeLogo} alt="VectraLern" width={220} height={60} className="dark:hidden block w-[150px] h-auto" />
-              <Image src={mainlogo} alt="VectraLern" width={220} height={60} className="hidden dark:block w-[150px] h-auto" />
-            </Link>
+          <Link href="/">
+            <Image
+              src={mainLightModeLogo}
+              alt="VectraLern"
+              width={220}
+              height={60}
+              className="dark:hidden block w-[150px] h-auto"
+            />
+            <Image
+              src={mainlogo}
+              alt="VectraLern"
+              width={220}
+              height={60}
+              className="hidden dark:block w-[150px] h-auto"
+            />
+          </Link>
         </div>
 
         <div className="w-full max-w-md mx-auto mt-16 lg:mt-0">
@@ -165,72 +211,78 @@ const SignInPage = () => {
 
           <form onSubmit={onSubmit} className="space-y-5">
             <div className="space-y-2">
-                <label className="text-xs font-bold text-foreground flex items-center gap-2">
-                  Email Address
-                </label>
-                <div className="relative">
-                  <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted">
-                    <Mail size={16} />
-                  </div>
-                  <input
-                    type="email"
-                    name="email"
-                    required
-                    placeholder="name@example.com"
-                    className="w-full pl-11 pr-4 py-3.5 rounded-xl bg-card-bg border border-card-border text-sm text-foreground placeholder:text-muted focus:border-brand-mint focus:ring-1 focus:ring-brand-mint outline-none transition-all shadow-sm"
-                  />
+              <label className="text-xs font-bold text-foreground flex items-center gap-2">
+                Email Address
+              </label>
+              <div className="relative">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted">
+                  <Mail size={16} />
                 </div>
+                <input
+                  type="email"
+                  name="email"
+                  required
+                  placeholder="name@example.com"
+                  className="w-full pl-11 pr-4 py-3.5 rounded-xl bg-card-bg border border-card-border text-sm text-foreground placeholder:text-muted focus:border-brand-mint focus:ring-1 focus:ring-brand-mint outline-none transition-all shadow-sm"
+                />
+              </div>
             </div>
-            
+
             <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <label className="text-xs font-bold text-foreground flex items-center gap-2">
-                    Password
-                  </label>
-                  <Link href="/forgot-password" className="text-[11px] font-bold text-brand-ocean hover:text-brand-mint transition-colors">
-                    Forgot password?
-                  </Link>
+              <div className="flex items-center justify-between">
+                <label className="text-xs font-bold text-foreground flex items-center gap-2">
+                  Password
+                </label>
+                <Link
+                  href="/forgot-password"
+                  className="text-[11px] font-bold text-brand-ocean hover:text-brand-mint transition-colors"
+                >
+                  Forgot password?
+                </Link>
+              </div>
+              <div className="relative">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted">
+                  <Lock size={16} />
                 </div>
-                <div className="relative">
-                  <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted">
-                    <Lock size={16} />
-                  </div>
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    name="password"
-                    required
-                    placeholder="Enter your password"
-                    className="w-full pl-11 pr-10 py-3.5 rounded-xl bg-card-bg border border-card-border text-sm text-foreground placeholder:text-muted focus:border-brand-mint focus:ring-1 focus:ring-brand-mint outline-none transition-all shadow-sm"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-muted hover:text-foreground transition-colors"
-                  >
-                    <Eye size={16} />
-                  </button>
-                </div>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  required
+                  placeholder="Enter your password"
+                  className="w-full pl-11 pr-10 py-3.5 rounded-xl bg-card-bg border border-card-border text-sm text-foreground placeholder:text-muted focus:border-brand-mint focus:ring-1 focus:ring-brand-mint outline-none transition-all shadow-sm"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-muted hover:text-foreground transition-colors"
+                >
+                  <Eye size={16} />
+                </button>
+              </div>
             </div>
 
             <div className="pt-2">
-                <button
-                  type="submit"
-                  disabled={isLoading}
-                  className="w-full bg-main-gradient text-white font-bold py-3.5 px-6 rounded-xl text-sm flex items-center justify-center gap-2 shadow-glow hover:brightness-110 active:scale-[0.98] transition-all disabled:opacity-70 disabled:cursor-not-allowed"
-                >
-                  <span>{isLoading ? "Signing in..." : "Sign In"}</span>
-                  {!isLoading && <ArrowRight size={16} />}
-                </button>
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="w-full bg-main-gradient text-white font-bold py-3.5 px-6 rounded-xl text-sm flex items-center justify-center gap-2 shadow-glow hover:brightness-110 active:scale-[0.98] transition-all disabled:opacity-70 disabled:cursor-not-allowed"
+              >
+                <span>{isLoading ? "Signing in..." : "Sign In"}</span>
+                {!isLoading && <ArrowRight size={16} />}
+              </button>
             </div>
           </form>
 
           <p className="mt-8 text-center text-sm text-muted font-medium">
             Don't have an account?{" "}
-            <Link href="/signup" className="text-brand-ocean hover:text-brand-mint font-bold transition-colors">
+            <Link
+              href="/signup"
+              className="text-brand-ocean hover:text-brand-mint font-bold transition-colors"
+            >
               Create one
             </Link>
           </p>
-          
+
           <div className="mt-10 flex items-center justify-center gap-2 text-[10px] font-bold text-muted uppercase tracking-wider bg-card-bg/50 py-2 rounded-lg border border-card-border">
             <ShieldCheck size={14} className="text-brand-mint" />
             <span>Secure Encrypted Login</span>

@@ -1,8 +1,7 @@
 import Link from "next/link";
-import { GraduationCap, Mail, Phone, MapPin, ArrowUpRight } from "lucide-react";
+import { Mail, Phone, MapPin, ArrowUpRight } from "lucide-react";
 import Image from "next/image";
-import mainLightModeLogo from "@/assets/mainLightModeLogo.png";
-import mainlogo from "@/assets/mainlogo.png";
+import standaloneIcon from "@/assets/standaloneIcon.png";
 import {
   FaFacebookF,
   FaInstagram,
@@ -23,9 +22,28 @@ const Footer = () => {
         <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-12 pb-16">
           {/* Brand Presentation Column (Takes up 4 cols on large layouts) */}
           <div className="lg:col-span-4 space-y-6">
-            <Link href="/" className="inline-flex items-center group active:scale-95 transition-transform">
-              <Image src={mainLightModeLogo} alt="VectraLern" width={250} height={70} className="dark:hidden block w-[220px] sm:w-[250px] h-auto" />
-              <Image src={mainlogo} alt="VectraLern" width={250} height={70} className="hidden dark:block w-[220px] sm:w-[250px] h-auto" />
+            <Link
+              href="/"
+              className="inline-flex items-center gap-2 group active:scale-95 transition-transform"
+            >
+              <div className="flex">
+                <Image
+                  src={standaloneIcon}
+                  alt="VectraLern"
+                  width={48}
+                  height={48}
+                  priority
+                  className="object-cover"
+                />
+              </div>
+              <div className="flex flex-col justify-center">
+                <span className="text-xl font-bold text-[#22E6D8] leading-none tracking-wide">
+                  VectraLearn
+                </span>
+                <span className="text-[0.55rem] md:text-[0.65rem] font-bold text-foreground/70 tracking-[0.2em] mt-1 uppercase">
+                  Global Online Education
+                </span>
+              </div>
             </Link>
 
             <p className="max-w-xs text-xs font-semibold leading-relaxed text-muted">

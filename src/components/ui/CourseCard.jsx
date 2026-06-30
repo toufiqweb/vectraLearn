@@ -1,12 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
-import {
-  Star,
-  Clock,
-  BookOpen,
-  Signal,
-  Bookmark,
-} from "lucide-react";
+import { Star, Clock, BookOpen, Signal, Bookmark } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useWishlist } from "@/lib/context/WishlistProvider";
@@ -33,7 +27,12 @@ const item = {
   },
 };
 
-export default function CourseCard({ course, allowRating = false, onRateClick, existingReview }) {
+export default function CourseCard({
+  course,
+  allowRating = false,
+  onRateClick,
+  existingReview,
+}) {
   const courseId = course.id || course._id;
   const {
     title,
@@ -50,10 +49,13 @@ export default function CourseCard({ course, allowRating = false, onRateClick, e
 
   const nameOfInstructor =
     instructorName ||
-    (instructor && typeof instructor === "object" ? instructor.name : instructor) ||
+    (instructor && typeof instructor === "object"
+      ? instructor.name
+      : instructor) ||
     "Instructor";
 
-  const { wishlistedIds, toggleWishlist, loadingIds, isStudent } = useWishlist();
+  const { wishlistedIds, toggleWishlist, loadingIds, isStudent } =
+    useWishlist();
 
   const courseIdStr = courseId?.toString();
   const isWishlisted = wishlistedIds.has(courseIdStr);
@@ -93,13 +95,16 @@ export default function CourseCard({ course, allowRating = false, onRateClick, e
             disabled={isToggling}
             whileTap={{ scale: 0.85 }}
             whileHover={{ scale: 1.1 }}
-            aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
+            aria-label={
+              isWishlisted ? "Remove from wishlist" : "Add to wishlist"
+            }
             className={`
               absolute top-3 right-3 flex items-center justify-center w-8 h-8 rounded-full
               backdrop-blur-md transition-all duration-300 cursor-pointer shadow-sm
-              ${isWishlisted
-                ? "bg-card-bg border border-card-border text-brand-cyan shadow-glow" 
-                : "bg-white/70 hover:bg-white border-transparent text-muted hover:text-foreground dark:bg-black/50 dark:hover:bg-black/80"
+              ${
+                isWishlisted
+                  ? "bg-card-bg border border-card-border text-brand-cyan shadow-glow"
+                  : "bg-white/70 hover:bg-white border-transparent text-muted hover:text-foreground dark:bg-black/50 dark:hover:bg-black/80"
               }
               ${isToggling ? "opacity-50 cursor-not-allowed" : ""}
             `}
@@ -122,8 +127,11 @@ export default function CourseCard({ course, allowRating = false, onRateClick, e
         className="flex flex-1 flex-col p-5"
       >
         {/* 2. Header & Subtitle */}
-        <motion.div variants={item} className="flex justify-between items-start gap-4 mb-1">
-          <h3 className="line-clamp-2 text-lg font-bold leading-snug text-foreground group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-main-gradient transition-colors">
+        <motion.div
+          variants={item}
+          className="flex justify-between items-start gap-4 mb-1"
+        >
+          <h3 className="line-clamp-2 text-lg font-bold leading-snug text-foreground  group-hover:bg-clip-text group-hover:bg-main-gradient transition-colors">
             {title}
           </h3>
           <div className="flex items-center gap-1 shrink-0 mt-0.5">
@@ -134,12 +142,18 @@ export default function CourseCard({ course, allowRating = false, onRateClick, e
           </div>
         </motion.div>
 
-        <motion.p variants={item} className="text-sm font-medium text-muted mb-5">
+        <motion.p
+          variants={item}
+          className="text-sm font-medium text-muted mb-5"
+        >
           Instructor: {nameOfInstructor}
         </motion.p>
 
         {/* 3. Body (Vertical Info List) */}
-        <motion.div variants={item} className="flex flex-col gap-2.5 mb-6 mt-auto text-sm font-medium text-muted">
+        <motion.div
+          variants={item}
+          className="flex flex-col gap-2.5 mb-6 mt-auto text-sm font-medium text-muted"
+        >
           <div className="flex items-center gap-3">
             <Signal className="h-4 w-4 text-brand-ocean" strokeWidth={2.5} />
             <span>{level} Level</span>
@@ -155,7 +169,10 @@ export default function CourseCard({ course, allowRating = false, onRateClick, e
         </motion.div>
 
         {/* 4. Footer (Price & Action) */}
-        <motion.div variants={item} className="flex items-center justify-between pt-4 border-t border-card-border mt-auto">
+        <motion.div
+          variants={item}
+          className="flex items-center justify-between pt-4 border-t border-card-border mt-auto"
+        >
           <div className="flex flex-col">
             <span className="text-[11px] font-semibold text-muted uppercase tracking-wider mb-0.5">
               Start from
@@ -175,12 +192,14 @@ export default function CourseCard({ course, allowRating = false, onRateClick, e
           <div className="flex items-center gap-2">
             {allowRating && (
               <button
-                onClick={(e) => { 
-                  e.preventDefault(); 
-                  if (onRateClick) onRateClick(course); 
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (onRateClick) onRateClick(course);
                 }}
                 className="inline-flex items-center justify-center rounded-lg bg-amber-50 dark:bg-amber-500/10 hover:bg-amber-100 dark:hover:bg-amber-500/20 text-amber-600 dark:text-amber-400 p-2.5 transition-colors duration-300"
-                aria-label={existingReview ? "Update Review" : "Rate this course"}
+                aria-label={
+                  existingReview ? "Update Review" : "Rate this course"
+                }
                 title={existingReview ? "Update Review" : "Rate Course"}
               >
                 <Star className="h-4 w-4" />

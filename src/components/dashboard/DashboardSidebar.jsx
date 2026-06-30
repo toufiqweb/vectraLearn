@@ -17,17 +17,14 @@ import {
   User,
   House,
   Crown,
-  Zap,
   MoreVertical,
   PanelLeftClose,
   PanelLeftOpen,
-  X
+  X,
 } from "lucide-react";
 import { useSidebar } from "./SidebarProvider";
 import Image from "next/image";
 import standaloneIcon from "@/assets/standaloneIcon.png";
-import mainLightModeLogo from "@/assets/mainLightModeLogo.png";
-import mainlogo from "@/assets/mainlogo.png";
 
 const adminLinks = [
   {
@@ -95,7 +92,7 @@ export default function DashboardSidebar({ role }) {
         onClick={() => setSidebarOpen(false)}
       >
         <Icon size={18} strokeWidth={isActive ? 2.5 : 2} className="shrink-0" />
-        
+
         {!isCollapsed && (
           <span className="text-[13px] font-medium truncate">{item.name}</span>
         )}
@@ -127,17 +124,44 @@ export default function DashboardSidebar({ role }) {
         } ${isCollapsed ? "lg:w-[72px] w-[260px]" : "w-[260px]"}`}
       >
         {/* Top Header Logo Area */}
-        <div className={`flex shrink-0 ${isCollapsed ? 'flex-col items-center py-5 gap-5' : 'h-[72px] items-center justify-between px-4'}`}>
-          <Link href="/" className="flex items-center gap-3 overflow-hidden active:scale-95 transition-transform">
+        <div
+          className={`flex shrink-0 ${isCollapsed ? "flex-col items-center py-5 gap-5" : "h-[72px] items-center justify-between px-4"}`}
+        >
+          <Link
+            href="/"
+            className="flex items-center gap-3 overflow-hidden active:scale-95 transition-transform"
+          >
             {isCollapsed ? (
               <div className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden">
-                <Image src={standaloneIcon} alt="VectraLern Icon" width={32} height={32} className="w-8 h-8 object-contain" />
+                <Image
+                  src={standaloneIcon}
+                  alt="VectraLern Icon"
+                  width={32}
+                  height={32}
+                  className="w-8 h-8 object-contain"
+                />
               </div>
             ) : (
-              <div className="flex items-center pt-2">
-                <Image src={mainLightModeLogo} alt="VectraLern" width={200} height={55} className="dark:hidden block w-[180px] h-auto" />
-                <Image src={mainlogo} alt="VectraLern" width={200} height={55} className="hidden dark:block w-[180px] h-auto" />
-              </div>
+              <>
+                <div className="flex">
+                  <Image
+                    src={standaloneIcon}
+                    alt="VectraLern"
+                    width={40}
+                    height={40}
+                    priority
+                    className="object-cover"
+                  />
+                </div>
+                <div className="flex flex-col justify-center">
+                  <span className="text-lg font-bold text-[#22E6D8] leading-none tracking-wide">
+                    VectraLearn
+                  </span>
+                  <span className="text-[0.45rem] font-bold text-foreground/70 tracking-[0.2em] mt-1 uppercase">
+                    Global Online Education
+                  </span>
+                </div>
+              </>
             )}
           </Link>
 
@@ -146,7 +170,11 @@ export default function DashboardSidebar({ role }) {
             className="hidden lg:flex text-muted hover:text-foreground transition-colors rounded-lg p-1.5 hover:bg-foreground/5 shrink-0"
             onClick={() => setIsCollapsed(!isCollapsed)}
           >
-            {isCollapsed ? <PanelLeftOpen size={18} /> : <PanelLeftClose size={18} />}
+            {isCollapsed ? (
+              <PanelLeftOpen size={18} />
+            ) : (
+              <PanelLeftClose size={18} />
+            )}
           </button>
 
           {/* Mobile Close Button */}
@@ -161,9 +189,9 @@ export default function DashboardSidebar({ role }) {
         {/* Navigation Links Area */}
         <div className="flex-1 overflow-y-auto py-2 px-3 space-y-1 scrollbar-none">
           {!isCollapsed && (
-             <div className="px-3 mb-2 mt-2 text-[10px] font-bold uppercase tracking-wider text-muted">
-               Navigation
-             </div>
+            <div className="px-3 mb-2 mt-2 text-[10px] font-bold uppercase tracking-wider text-muted">
+              Navigation
+            </div>
           )}
           {allLinks.map(renderNavItem)}
         </div>
@@ -201,7 +229,9 @@ export default function DashboardSidebar({ role }) {
           )}
 
           {/* User Profile */}
-          <div className={`flex items-center rounded-xl p-2 mt-1 hover:bg-foreground/5 cursor-pointer transition-colors ${isCollapsed ? 'justify-center' : 'justify-between'}`}>
+          <div
+            className={`flex items-center rounded-xl p-2 mt-1 hover:bg-foreground/5 cursor-pointer transition-colors ${isCollapsed ? "justify-center" : "justify-between"}`}
+          >
             <div className="flex items-center gap-3 overflow-hidden">
               <div className="h-8 w-8 shrink-0 overflow-hidden rounded-full border border-card-border bg-foreground/5">
                 <Image
@@ -224,7 +254,10 @@ export default function DashboardSidebar({ role }) {
               )}
             </div>
             {!isCollapsed && (
-              <MoreVertical size={16} className="text-muted shrink-0 hover:text-foreground transition-colors" />
+              <MoreVertical
+                size={16}
+                className="text-muted shrink-0 hover:text-foreground transition-colors"
+              />
             )}
           </div>
         </div>

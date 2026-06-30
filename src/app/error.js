@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { AlertTriangle, Home, RefreshCw, Terminal } from "lucide-react";
 
 import mainLightModeLogo from "@/assets/mainLightModeLogo.png";
-import mainlogo from "@/assets/mainlogo.png";
+import mainlogo from "@/assets/mainLogo2.png";
 
 export default function ErrorPage({ error, reset }) {
   useEffect(() => {
@@ -32,21 +32,24 @@ export default function ErrorPage({ error, reset }) {
 
       <div className="relative z-10 w-full max-w-3xl mx-auto flex flex-col items-center text-center">
         {/* Brand Logo */}
-        <Link href="/" className="mb-12 hover:opacity-80 transition-opacity drop-shadow-sm">
-          <Image 
-            src={mainLightModeLogo} 
-            alt="VectraLern" 
-            width={200} 
-            height={55} 
-            className="dark:hidden block w-[160px] sm:w-[200px] h-auto" 
+        <Link
+          href="/"
+          className="mb-12 hover:opacity-80 transition-opacity drop-shadow-sm"
+        >
+          <Image
+            src={mainLightModeLogo}
+            alt="VectraLern"
+            width={200}
+            height={55}
+            className="dark:hidden block w-[160px] sm:w-[200px] h-auto"
             priority
           />
-          <Image 
-            src={mainlogo} 
-            alt="VectraLern" 
-            width={200} 
-            height={55} 
-            className="hidden dark:block w-[160px] sm:w-[200px] h-auto" 
+          <Image
+            src={mainlogo}
+            alt="VectraLern"
+            width={200}
+            height={55}
+            className="hidden dark:block w-[160px] sm:w-[200px] h-auto"
             priority
           />
         </Link>
@@ -65,9 +68,10 @@ export default function ErrorPage({ error, reset }) {
 
         {/* Typography */}
         <h2 className="section-title mb-4">Application Error</h2>
-        
+
         <p className="section-desc max-w-lg mx-auto mb-10 text-muted">
-          We encountered an unexpected error while trying to process your request. Our engineering team has been notified.
+          We encountered an unexpected error while trying to process your
+          request. Our engineering team has been notified.
         </p>
 
         {/* Action Controls */}
@@ -95,8 +99,12 @@ export default function ErrorPage({ error, reset }) {
         <div className="mt-16 flex items-center gap-3 text-muted text-xs font-mono font-medium opacity-80 bg-glass-bg border border-glass-border px-5 py-2.5 rounded-full shadow-sm">
           <Terminal className="w-4 h-4 text-red-500/70" />
           <div className="flex flex-col text-left">
-            <span className="text-[9px] uppercase tracking-wider text-muted/70">Reference Code</span>
-            <span className="truncate max-w-[200px] sm:max-w-xs">{error?.digest || "ERR_INTERNAL_SERVER_ERROR"}</span>
+            <span className="text-[9px] uppercase tracking-wider text-muted/70">
+              Reference Code
+            </span>
+            <span className="truncate max-w-[200px] sm:max-w-xs">
+              {error?.digest || "ERR_INTERNAL_SERVER_ERROR"}
+            </span>
           </div>
         </div>
       </div>

@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft, Search, Activity, AlertCircle } from "lucide-react";
 import mainLightModeLogo from "@/assets/mainLightModeLogo.png";
-import mainlogo from "@/assets/mainlogo.png";
+import mainlogo from "@/assets/mainLogo2.png";
 
 export default function NotFound() {
   return (

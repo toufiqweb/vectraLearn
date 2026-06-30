@@ -1,17 +1,27 @@
 "use client";
-
 import { Button } from "@heroui/react";
 import { useState, useEffect, useRef } from "react";
 import MyNavLink from "../ui/MyNavLink";
 import Link from "next/link";
 import { Avatar } from "@heroui/react";
-import { Menu, X, LogOut, Search, LayoutDashboard, User } from "lucide-react";
+import {
+  Menu,
+  X,
+  LogOut,
+  Search,
+  LayoutDashboard,
+  User,
+  Home,
+  BookOpen,
+  Rss,
+  Info,
+} from "lucide-react";
+import { usePathname } from "next/navigation";
 import ThemeToggle from "./ThemeToggle";
 import { useUserClientSession } from "@/lib/api/getUserServerSession";
 import { authClient } from "@/lib/auth-client";
 import Image from "next/image";
-import mainLightModeLogo from "@/assets/mainLightModeLogo.png";
-import mainlogo from "@/assets/mainlogo.png";
+import standaloneIcon from "@/assets/standaloneIcon.png";
 
 const Navbar = () => {
   const { user, isPending } = useUserClientSession();
@@ -31,20 +41,53 @@ const Navbar = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const links = (
+  const pathname = usePathname();
+
+  const navItems = [
+    { name: "Home", href: "/", icon: Home },
+    { name: "Courses", href: "/courses", icon: BookOpen },
+    { name: "Blog", href: "/blogs", icon: Rss },
+    { name: "About", href: "/about", icon: Info },
+  ];
+
+  const desktopLinks = (
     <>
-      <li>
-        <MyNavLink href="/">Home</MyNavLink>
-      </li>
-      <li>
-        <MyNavLink href="/courses">Courses</MyNavLink>
-      </li>
-      <li>
-        <MyNavLink href="/blogs">Blog</MyNavLink>
-      </li>
-      <li>
-        <MyNavLink href="/about">About</MyNavLink>
-      </li>
+      {navItems.map((item) => (
+        <li key={item.name}>
+          <MyNavLink href={item.href}>{item.name}</MyNavLink>
+        </li>
+      ))}
+    </>
+  );
+
+  const mobileLinks = (
+    <>
+      {navItems.map((item) => {
+        const Icon = item.icon;
+        const isActive =
+          pathname === item.href ||
+          (item.href !== "/" && pathname.startsWith(item.href));
+
+        return (
+          <li key={item.name}>
+            <Link
+              href={item.href}
+              onClick={() => setIsMenuOpen(false)}
+              className={`flex items-center gap-3 p-4 text-base font-semibold rounded-2xl transition-all ${
+                isActive
+                  ? "bg-[#22E6D8]/10 text-[#22E6D8] border border-[#22E6D8]/20"
+                  : "text-muted hover:text-foreground bg-card-bg/50 hover:bg-card-bg"
+              }`}
+            >
+              <Icon
+                size={20}
+                className={isActive ? "text-[#22E6D8]" : "text-brand-ocean"}
+              />
+              <span>{item.name}</span>
+            </Link>
+          </li>
+        );
+      })}
     </>
   );
 
@@ -68,35 +111,43 @@ const Navbar = () => {
 
             <Link
               href="/"
-              className="active:scale-95 transition-transform flex items-center"
+              className="active:scale-95 transition-transform flex items-center gap-2"
               suppressHydrationWarning
             >
               <div className="dark:hidden flex">
                 <Image
-                  src={mainLightModeLogo}
+                  src={standaloneIcon}
                   alt="VectraLern"
-                  width={200}
-                  height={55}
+                  width={48}
+                  height={48}
                   priority
-                  className="block w-[160px] sm:w-[200px] h-auto object-cover"
+                  className="block object-cover"
                 />
               </div>
               <div className="hidden dark:flex">
                 <Image
-                  src={mainlogo}
+                  src={standaloneIcon}
                   alt="VectraLern"
-                  width={200}
-                  height={55}
+                  width={48}
+                  height={48}
                   priority
-                  className="block w-[160px] sm:w-[200px] h-auto"
+                  className="block "
                 />
+              </div>
+              <div className="flex flex-col justify-center">
+                <span className="text-xl  font-bold text-[#22E6D8]  leading-none tracking-wide">
+                  VectraLearn
+                </span>
+                <span className="text-[0.55rem] md:text-[0.65rem] font-bold text-foreground/70 tracking-[0.2em] mt-1 uppercase">
+                  Global Online Education
+                </span>
               </div>
             </Link>
           </div>
 
           {/* Middle Side: Centered Navigation Links (Desktop) */}
           <ul className="hidden items-center gap-8 md:flex text-sm font-semibold text-muted">
-            {links}
+            {desktopLinks}
           </ul>
 
           {/* Right Side: Search Icon, Theme Toggle & Authentication Flows */}
@@ -137,7 +188,7 @@ const Navbar = () => {
 
                   {/* Manual Dropdown (Desktop Only) */}
                   {isDropdownOpen && (
-                    <div className="absolute right-0 top-full mt-2 w-48 rounded-2xl border border-card-border bg-card-bg p-2 text-foreground shadow-2xl backdrop-blur-xl animate-in fade-in slide-in-from-top-2 duration-150 z-50">
+                    <div className="absolute right-0 top-full mt-2 w-48 rounded-2xl border border-card-border bg-nav-bg p-2 text-foreground shadow-2xl backdrop-blur-2xl animate-in fade-in slide-in-from-top-2 duration-150 z-50">
                       <div className="px-3 py-2 border-b border-card-border mb-1">
                         <p className="text-[10px] font-semibold uppercase tracking-wider text-muted">
                           Signed in as
@@ -221,9 +272,7 @@ const Navbar = () => {
       {isMenuOpen && (
         <div className="md:hidden border-t border-nav-border bg-nav-bg backdrop-blur-3xl px-6 py-8 shadow-2xl animate-in fade-in slide-in-from-top-2 duration-200">
           {/* Main Navigation Links */}
-          <ul className="flex flex-col gap-6 text-lg text-foreground font-semibold">
-            {links}
-          </ul>
+          <ul className="flex flex-col gap-3">{mobileLinks}</ul>
 
           <div className="border-t border-nav-border mt-8 pt-8">
             {user ? (
