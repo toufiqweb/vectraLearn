@@ -6,7 +6,8 @@ import { CheckCircle, XCircle, Loader2 } from "lucide-react";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 
-import { getPendingCoursesClient, approveOrRejectCourse } from "@/lib/api/courses";
+import { getPendingCoursesClient } from "@/lib/api/course";
+import { approveOrRejectCourse } from "@/lib/actions/course";
 import SearchFilterBar from "@/components/ui/SearchFilterBar";
 
 export default function PendingCoursesContainer({ user }) {

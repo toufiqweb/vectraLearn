@@ -5,6 +5,7 @@ import Image from "next/image";
 import { toast } from "react-toastify";
 import { imageUpload } from "../../../lib/imageUpload";
 import { useRouter } from "next/navigation";
+import { updateUserProfileAction } from "@/lib/actions/user";
 
 export default function EditProfileModal({ isOpen, onClose, user, onSuccess }) {
   const router = useRouter();
@@ -92,19 +93,7 @@ export default function EditProfileModal({ isOpen, onClose, user, onSuccess }) {
         },
       };
 
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/user/profile`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            "x-user-id": user.id,
-          },
-          body: JSON.stringify(payload),
-        },
-      );
-
-      const data = await res.json();
+      const data = await updateUserProfileAction(payload, user.id);
 
       if (data.success) {
         toast.success(data.message || "Profile updated successfully!");

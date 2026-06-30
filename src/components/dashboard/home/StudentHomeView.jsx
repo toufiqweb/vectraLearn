@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getEnrolledCoursesClient } from "@/lib/api/courses";
+import { getEnrolledCoursesClient } from "@/lib/api/course";
 import { BookOpen, Flame, Clock, PlayCircle, Loader2, CheckCircle, TrendingUp, Target, Calendar, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";

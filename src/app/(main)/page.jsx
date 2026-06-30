@@ -5,7 +5,7 @@ import StartLearningToday from "@/components/homepage/StartLearningToday";
 import Stats from "@/components/homepage/Stats";
 import TopInstructors from "@/components/homepage/TopInstructors";
 import Testimonials from "@/components/homepage/Testimonials";
-import { getAllCourses } from "@/lib/api/courses";
+import { getAllCourses } from "@/lib/api/course";
 import { Suspense } from "react";
 import PopularCardLoading from "@/components/ui/PopularCardLoading";
 import NewReleasesLoading from "@/components/ui/NewReleasesLoading";

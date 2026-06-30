@@ -11,7 +11,7 @@ import { useRouter, usePathname } from "next/navigation";
 import SearchFilterBar from "@/components/ui/SearchFilterBar";
 import DashboardPageHeader from "@/components/ui/DashboardPageHeader";
 
-export default function MyLearningClient({ initialData, currentPage }) {
+export default function MyLearningClient({ initialData, currentPage, userId }) {
   const [view, setView] = useState("grid");
   const [searchQuery, setSearchQuery] = useState("");
   const [ratingModalCourse, setRatingModalCourse] = useState(null);
@@ -232,6 +232,7 @@ export default function MyLearningClient({ initialData, currentPage }) {
         onRatingSuccess={handleRatingSuccess}
         initialRating={ratingModalCourse?.existingReview?.rating || 0}
         initialMessage={ratingModalCourse?.existingReview?.message || ""}
+        userId={userId}
       />
     </div>
   );

@@ -1,4 +1,5 @@
-import { getEnrolledCoursesAction } from "@/lib/actions/myLearning";
+import { getEnrolledCoursesClient } from "@/lib/api/course";
+import { getUserServerSession } from "@/lib/actions/getUserServerSession";
 import MyLearningClient from "./MyLearningClient";
 
 export default async function MyLearningPage({ searchParams }) {
@@ -10,7 +11,10 @@ export default async function MyLearningPage({ searchParams }) {
   const limit = 6;
 
   // Server-Side Data Fetching
-  const data = await getEnrolledCoursesAction(page, limit);
+  const user = await getUserServerSession();
+  const data = user 
+    ? await getEnrolledCoursesClient(user.id, page, limit)
+    : { success: false, message: "Unauthorized" };
 
-  return <MyLearningClient initialData={data} currentPage={page} />;
+  return <MyLearningClient initialData={data} currentPage={page} userId={user?.id} />;
 }

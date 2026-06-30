@@ -3,12 +3,22 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import { 
-  BookOpen, Plus, Trash2, ArrowRight, ArrowLeft, 
-  Check, Save, DollarSign, Layers, FileText, 
-  HelpCircle, Settings, Award, Clock, RefreshCw, PlusCircle
+import {
+  BookOpen,
+  Plus,
+  Trash2,
+  ArrowRight,
+  ArrowLeft,
+  Check,
+  Save,
+  DollarSign,
+  FileText,
+  HelpCircle,
+  Clock,
+  RefreshCw,
+  PlusCircle,
 } from "lucide-react";
-import { createCourse } from "@/lib/actions/courses";
+import { createCourse } from "@/lib/actions/course";
 import { imageUpload } from "@/lib/imageUpload";
 import DashboardPageHeader from "@/components/ui/DashboardPageHeader";
 
@@ -33,9 +43,7 @@ export default function CreateCoursePage() {
 
   const [whatYoullLearn, setWhatYoullLearn] = useState([""]);
   const [requirements, setRequirements] = useState([""]);
-  const [curriculum, setCurriculum] = useState([
-    { title: "", lectures: "" }
-  ]);
+  const [curriculum, setCurriculum] = useState([{ title: "", lectures: "" }]);
 
   // Form field change handlers
   const handleInputChange = (e) => {
@@ -171,16 +179,18 @@ export default function CreateCoursePage() {
         ...formData,
         lessons: Number(formData.lessons),
         price: Number(formData.price),
-        originalPrice: formData.originalPrice ? Number(formData.originalPrice) : Number(formData.price),
-        whatYoullLearn: whatYoullLearn.filter(item => item.trim() !== ""),
-        requirements: requirements.filter(item => item.trim() !== ""),
+        originalPrice: formData.originalPrice
+          ? Number(formData.originalPrice)
+          : Number(formData.price),
+        whatYoullLearn: whatYoullLearn.filter((item) => item.trim() !== ""),
+        requirements: requirements.filter((item) => item.trim() !== ""),
         curriculum: curriculum
           .map((chap, index) => ({
             id: String(index + 1).padStart(2, "0"),
             title: chap.title,
-            lectures: Number(chap.lectures) || 0
+            lectures: Number(chap.lectures) || 0,
           }))
-          .filter(chap => chap.title.trim() !== "")
+          .filter((chap) => chap.title.trim() !== ""),
       };
 
       const result = await createCourse(coursePayload);
@@ -190,6 +200,7 @@ export default function CreateCoursePage() {
         router.push("/dashboard/my-courses");
       } else {
         toast.error(result.error);
+        console.log(result.error);
       }
     });
   };
@@ -199,7 +210,7 @@ export default function CreateCoursePage() {
     { title: "Basic Info", icon: FileText },
     { title: "Pricing & Media", icon: DollarSign },
     { title: "Requirements", icon: HelpCircle },
-    { title: "Curriculum", icon: BookOpen }
+    { title: "Curriculum", icon: BookOpen },
   ];
 
   return (
@@ -209,7 +220,10 @@ export default function CreateCoursePage() {
           icon={PlusCircle}
           title={
             <>
-              Create New <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-cyan to-brand-ocean">Course</span>
+              Create New{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-cyan to-brand-ocean">
+                Course
+              </span>
             </>
           }
           subtitle="Provide detailed information to set up your course. It will go live once approved by the administrators."
@@ -242,20 +256,28 @@ export default function CreateCoursePage() {
                 isActive
                   ? "bg-[var(--brand-cyan)]/10 text-[var(--brand-cyan)] shadow-inner"
                   : isCompleted
-                  ? "text-[var(--brand-mint)]"
-                  : "text-muted hover:bg-foreground/5"
+                    ? "text-[var(--brand-mint)]"
+                    : "text-muted hover:bg-foreground/5"
               }`}
             >
-              <div className={`h-10 w-10 sm:h-12 sm:w-12 xl:h-10 xl:w-10 rounded-[14px] flex items-center justify-center font-bold text-xs shrink-0 transition-colors ${
-                isActive
-                  ? "bg-[var(--brand-cyan)] text-white shadow-md shadow-[var(--brand-cyan)]/30"
-                  : isCompleted
-                  ? "bg-[var(--brand-mint)] text-white shadow-sm shadow-[var(--brand-mint)]/20"
-                  : "bg-foreground/10 text-muted"
-              }`}>
-                {isCompleted ? <Check className="h-5 w-5 sm:h-6 sm:w-6 xl:h-5 xl:w-5" /> : <StepIcon className="h-5 w-5 sm:h-6 sm:w-6 xl:h-5 xl:w-5" />}
+              <div
+                className={`h-10 w-10 sm:h-12 sm:w-12 xl:h-10 xl:w-10 rounded-[14px] flex items-center justify-center font-bold text-xs shrink-0 transition-colors ${
+                  isActive
+                    ? "bg-[var(--brand-cyan)] text-white shadow-md shadow-[var(--brand-cyan)]/30"
+                    : isCompleted
+                      ? "bg-[var(--brand-mint)] text-white shadow-sm shadow-[var(--brand-mint)]/20"
+                      : "bg-foreground/10 text-muted"
+                }`}
+              >
+                {isCompleted ? (
+                  <Check className="h-5 w-5 sm:h-6 sm:w-6 xl:h-5 xl:w-5" />
+                ) : (
+                  <StepIcon className="h-5 w-5 sm:h-6 sm:w-6 xl:h-5 xl:w-5" />
+                )}
               </div>
-              <span className="text-xs sm:text-sm font-bold tracking-tight mt-1 xl:mt-0">{step.title}</span>
+              <span className="text-xs sm:text-sm font-bold tracking-tight mt-1 xl:mt-0">
+                {step.title}
+              </span>
             </button>
           );
         })}
@@ -264,7 +286,6 @@ export default function CreateCoursePage() {
       {/* Form Container */}
       <form onSubmit={handleSubmit} className="space-y-8">
         <div className="glass-card rounded-[32px] border border-card-border shadow-card p-6 md:p-10 lg:p-12 transition-colors duration-300">
-          
           {/* STEP 0: BASIC INFORMATION */}
           {activeTab === 0 && (
             <div className="space-y-8 animate-fadeIn">
@@ -276,10 +297,13 @@ export default function CreateCoursePage() {
                   Step 1: Basic Information
                 </h2>
               </div>
-              
+
               <div className="grid gap-8">
                 <div>
-                  <label htmlFor="title" className="block text-sm font-bold text-muted mb-2 uppercase tracking-wider">
+                  <label
+                    htmlFor="title"
+                    className="block text-sm font-bold text-muted mb-2 uppercase tracking-wider"
+                  >
                     Course Title *
                   </label>
                   <input
@@ -295,7 +319,10 @@ export default function CreateCoursePage() {
                 </div>
 
                 <div>
-                  <label htmlFor="subTitle" className="block text-sm font-bold text-muted mb-2 uppercase tracking-wider">
+                  <label
+                    htmlFor="subTitle"
+                    className="block text-sm font-bold text-muted mb-2 uppercase tracking-wider"
+                  >
                     Subtitle / Short Summary
                   </label>
                   <input
@@ -311,7 +338,10 @@ export default function CreateCoursePage() {
 
                 <div className="grid lg:grid-cols-2 gap-8">
                   <div>
-                    <label htmlFor="category" className="block text-sm font-bold text-muted mb-2 uppercase tracking-wider">
+                    <label
+                      htmlFor="category"
+                      className="block text-sm font-bold text-muted mb-2 uppercase tracking-wider"
+                    >
                       Category *
                     </label>
                     <input
@@ -327,7 +357,10 @@ export default function CreateCoursePage() {
                   </div>
 
                   <div>
-                    <label htmlFor="level" className="block text-sm font-bold text-muted mb-2 uppercase tracking-wider">
+                    <label
+                      htmlFor="level"
+                      className="block text-sm font-bold text-muted mb-2 uppercase tracking-wider"
+                    >
                       Difficulty Level *
                     </label>
                     <div className="relative">
@@ -338,19 +371,34 @@ export default function CreateCoursePage() {
                         onChange={handleInputChange}
                         className="w-full rounded-2xl border border-card-border bg-foreground/5 px-5 py-4 text-sm font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-[var(--brand-cyan)] focus:border-transparent transition-all appearance-none"
                       >
-                        <option value="Beginner" className="bg-card-bg">Beginner</option>
-                        <option value="Intermediate" className="bg-card-bg">Intermediate</option>
-                        <option value="Advanced" className="bg-card-bg">Advanced</option>
+                        <option value="Beginner" className="bg-card-bg">
+                          Beginner
+                        </option>
+                        <option value="Intermediate" className="bg-card-bg">
+                          Intermediate
+                        </option>
+                        <option value="Advanced" className="bg-card-bg">
+                          Advanced
+                        </option>
                       </select>
                       <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-5 text-muted">
-                        <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                        <svg
+                          className="fill-current h-4 w-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                        >
+                          <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                        </svg>
                       </div>
                     </div>
                   </div>
                 </div>
 
                 <div>
-                  <label htmlFor="description" className="block text-sm font-bold text-muted mb-2 uppercase tracking-wider">
+                  <label
+                    htmlFor="description"
+                    className="block text-sm font-bold text-muted mb-2 uppercase tracking-wider"
+                  >
                     Detailed Description *
                   </label>
                   <textarea
@@ -383,7 +431,10 @@ export default function CreateCoursePage() {
               <div className="grid gap-8">
                 <div className="grid lg:grid-cols-2 gap-8">
                   <div>
-                    <label htmlFor="price" className="block text-sm font-bold text-muted mb-2 uppercase tracking-wider">
+                    <label
+                      htmlFor="price"
+                      className="block text-sm font-bold text-muted mb-2 uppercase tracking-wider"
+                    >
                       Course Price ($) *
                     </label>
                     <div className="relative">
@@ -403,7 +454,10 @@ export default function CreateCoursePage() {
                   </div>
 
                   <div>
-                    <label htmlFor="originalPrice" className="block text-sm font-bold text-muted mb-2 uppercase tracking-wider">
+                    <label
+                      htmlFor="originalPrice"
+                      className="block text-sm font-bold text-muted mb-2 uppercase tracking-wider"
+                    >
                       Original Price ($) (Optional)
                     </label>
                     <div className="relative">
@@ -424,7 +478,10 @@ export default function CreateCoursePage() {
 
                 <div className="grid lg:grid-cols-2 gap-8">
                   <div>
-                    <label htmlFor="duration" className="block text-sm font-bold text-muted mb-2 uppercase tracking-wider">
+                    <label
+                      htmlFor="duration"
+                      className="block text-sm font-bold text-muted mb-2 uppercase tracking-wider"
+                    >
                       Estimated Duration
                     </label>
                     <div className="relative">
@@ -442,7 +499,10 @@ export default function CreateCoursePage() {
                   </div>
 
                   <div>
-                    <label htmlFor="lessons" className="block text-sm font-bold text-muted mb-2 uppercase tracking-wider">
+                    <label
+                      htmlFor="lessons"
+                      className="block text-sm font-bold text-muted mb-2 uppercase tracking-wider"
+                    >
                       Number of Lessons *
                     </label>
                     <input
@@ -467,7 +527,9 @@ export default function CreateCoursePage() {
                     {uploadingImage ? (
                       <div className="flex flex-col items-center gap-3 py-8">
                         <RefreshCw className="h-10 w-10 text-[var(--brand-cyan)] animate-spin" />
-                        <span className="text-sm font-bold text-muted">Uploading thumbnail...</span>
+                        <span className="text-sm font-bold text-muted">
+                          Uploading thumbnail...
+                        </span>
                       </div>
                     ) : formData.image ? (
                       <div className="flex flex-col items-center gap-4 w-full max-w-2xl">
@@ -492,7 +554,7 @@ export default function CreateCoursePage() {
                           <button
                             type="button"
                             onClick={() => {
-                              setFormData(prev => ({ ...prev, image: "" }));
+                              setFormData((prev) => ({ ...prev, image: "" }));
                             }}
                             className="px-5 py-2.5 bg-rose-500/10 hover:bg-rose-500/20 text-rose-500 border border-rose-500/30 rounded-xl text-sm font-bold transition-colors cursor-pointer shadow-sm"
                           >
@@ -505,8 +567,12 @@ export default function CreateCoursePage() {
                         <div className="h-16 w-16 bg-foreground/10 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                           <Plus className="h-8 w-8 text-muted" />
                         </div>
-                        <span className="text-base font-bold text-foreground mb-1">Upload Course Image</span>
-                        <span className="text-sm font-medium text-muted mt-1">PNG, JPG, JPEG up to 10MB</span>
+                        <span className="text-base font-bold text-foreground mb-1">
+                          Upload Course Image
+                        </span>
+                        <span className="text-sm font-medium text-muted mt-1">
+                          PNG, JPG, JPEG up to 10MB
+                        </span>
                         <input
                           type="file"
                           accept="image/*"
@@ -548,7 +614,7 @@ export default function CreateCoursePage() {
                     <Plus className="h-4 w-4" /> Add Goal
                   </button>
                 </div>
-                
+
                 <div className="space-y-4">
                   {whatYoullLearn.map((val, idx) => (
                     <div key={idx} className="flex gap-3 items-center group">
@@ -558,7 +624,9 @@ export default function CreateCoursePage() {
                       <input
                         type="text"
                         value={val}
-                        onChange={(e) => handleListFieldChange("learn", idx, e.target.value)}
+                        onChange={(e) =>
+                          handleListFieldChange("learn", idx, e.target.value)
+                        }
                         placeholder={`e.g., Build custom React Server Components`}
                         className="flex-1 rounded-2xl border border-card-border bg-foreground/5 px-5 py-4 text-sm font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-[var(--brand-cyan)] transition-all placeholder:text-muted/50"
                       />
@@ -589,7 +657,7 @@ export default function CreateCoursePage() {
                     <Plus className="h-4 w-4" /> Add Requirement
                   </button>
                 </div>
-                
+
                 <div className="space-y-4">
                   {requirements.map((val, idx) => (
                     <div key={idx} className="flex gap-3 items-center group">
@@ -599,7 +667,9 @@ export default function CreateCoursePage() {
                       <input
                         type="text"
                         value={val}
-                        onChange={(e) => handleListFieldChange("req", idx, e.target.value)}
+                        onChange={(e) =>
+                          handleListFieldChange("req", idx, e.target.value)
+                        }
                         placeholder={`e.g., Decent understanding of modern Javascript ES6+`}
                         className="flex-1 rounded-2xl border border-card-border bg-foreground/5 px-5 py-4 text-sm font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-[var(--brand-cyan)] transition-all placeholder:text-muted/50"
                       />
@@ -641,11 +711,14 @@ export default function CreateCoursePage() {
 
               <div className="space-y-6">
                 {curriculum.map((chapter, idx) => (
-                  <div key={idx} className="flex flex-col md:flex-row gap-5 items-start bg-foreground/5 p-5 sm:p-6 border border-card-border rounded-[24px] relative group hover:border-card-border/80 transition-colors">
+                  <div
+                    key={idx}
+                    className="flex flex-col md:flex-row gap-5 items-start bg-foreground/5 p-5 sm:p-6 border border-card-border rounded-[24px] relative group hover:border-card-border/80 transition-colors"
+                  >
                     <div className="w-12 h-12 rounded-xl bg-card-bg border border-card-border flex items-center justify-center font-black text-lg text-foreground shrink-0 shadow-sm">
                       {String(idx + 1).padStart(2, "0")}
                     </div>
-                    
+
                     <div className="flex-1 grid lg:grid-cols-3 gap-5 w-full">
                       <div className="lg:col-span-2">
                         <label className="block text-xs font-bold uppercase tracking-wider text-muted mb-2">
@@ -654,13 +727,15 @@ export default function CreateCoursePage() {
                         <input
                           type="text"
                           value={chapter.title}
-                          onChange={(e) => handleCurriculumChange(idx, "title", e.target.value)}
+                          onChange={(e) =>
+                            handleCurriculumChange(idx, "title", e.target.value)
+                          }
                           placeholder="e.g., Introduction to the framework"
                           className="w-full rounded-2xl border border-card-border bg-card-bg px-4 py-3.5 text-sm font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-[var(--brand-ocean)] transition-all placeholder:text-muted/50 shadow-sm"
                           required
                         />
                       </div>
-                      
+
                       <div>
                         <label className="block text-xs font-bold uppercase tracking-wider text-muted mb-2">
                           Number of Lectures
@@ -669,7 +744,13 @@ export default function CreateCoursePage() {
                           type="number"
                           min="0"
                           value={chapter.lectures}
-                          onChange={(e) => handleCurriculumChange(idx, "lectures", e.target.value)}
+                          onChange={(e) =>
+                            handleCurriculumChange(
+                              idx,
+                              "lectures",
+                              e.target.value,
+                            )
+                          }
                           placeholder="e.g., 5"
                           className="w-full rounded-2xl border border-card-border bg-card-bg px-4 py-3.5 text-sm font-medium text-foreground focus:outline-none focus:ring-2 focus:ring-[var(--brand-ocean)] transition-all placeholder:text-muted/50 shadow-sm"
                         />
@@ -689,7 +770,6 @@ export default function CreateCoursePage() {
               </div>
             </div>
           )}
-
         </div>
 
         {/* Action Controls */}

@@ -2,12 +2,10 @@
 
 import { revalidatePath } from "next/cache";
 import { getUserServerSession } from "./getUserServerSession";
-import { getTokenServer } from "../core/BetterAuthToken";
 import { serverMutation } from "../core/server";
 
 export const createCourse = async (courseData) => {
   try {
-    // 1. Get user session on the server side
     const user = await getUserServerSession();
     if (!user) {
       return { success: false, error: "Unauthorized: You must be logged in." };
@@ -17,33 +15,15 @@ export const createCourse = async (courseData) => {
       return { success: false, error: "Unauthorized: Only instructors can create courses." };
     }
 
-    const token = await getTokenServer();
-    if (!token) {
-      return { success: false, error: "Unauthorized: No active auth token found." };
-    }
-
-    // 2. Validate essential fields
     const {
-      title,
-      subTitle,
-      category,
-      duration,
-      lessons,
-      level,
-      price,
-      originalPrice,
-      image,
-      description,
-      whatYoullLearn,
-      requirements,
-      curriculum,
+      title, subTitle, category, duration, lessons, level, price, originalPrice,
+      image, description, whatYoullLearn, requirements, curriculum,
     } = courseData;
 
     if (!title || !category || !lessons || !price || !image || !description) {
       return { success: false, error: "Please fill out all required fields." };
     }
 
-    // 3. Construct finalized course object (adding secure instructor details from server session)
     const finalizedCourse = {
       title: String(title),
       subTitle: String(subTitle || ""),
@@ -72,15 +52,8 @@ export const createCourse = async (courseData) => {
         : [],
     };
 
-    // 4. Post mutation to the Express server API
-    const response = await serverMutation(
-      "/api/courses",
-      finalizedCourse,
-      "POST",
-      token
-    );
+    const response = await serverMutation("/api/courses", finalizedCourse, "POST");
 
-    // Revalidate paths to show the pending course in lists
     revalidatePath("/dashboard/my-courses");
     revalidatePath("/dashboard/pending-courses");
     revalidatePath("/courses");
@@ -99,17 +72,10 @@ export const deleteCourse = async (courseId, instructorId) => {
       return { success: false, error: "Unauthorized: You must be logged in." };
     }
 
-    const token = await getTokenServer();
-    if (!token) {
-      return { success: false, error: "Unauthorized: No active auth token found." };
-    }
-
-    // Call deletion API on backend, passing instructorId and userRole in request body for validation
     const response = await serverMutation(
       `/api/courses/${courseId}`,
       { instructorId: instructorId || user.id, userRole: user.role },
-      "DELETE",
-      token
+      "DELETE"
     );
 
     revalidatePath("/dashboard/my-courses");
@@ -119,5 +85,49 @@ export const deleteCourse = async (courseId, instructorId) => {
   } catch (error) {
     console.error("Error deleting course:", error);
     return { success: false, error: error.message || "An unexpected error occurred." };
+  }
+};
+
+export const toggleCourseStatus = async (courseId, actionType, instructorId) => {
+  try {
+    const response = await serverMutation(
+      `/api/courses/${courseId}/toggle-status`,
+      { action: actionType },
+      "PATCH",
+      { "x-instructor-id": instructorId }
+    );
+    revalidatePath("/dashboard/my-courses");
+    return response;
+  } catch (error) {
+    return { success: false, message: error.message };
+  }
+};
+
+export const approveOrRejectCourse = async (courseId, actionType, adminId) => {
+  try {
+    const response = await serverMutation(
+      `/api/admin/courses/${courseId}/approval`,
+      { action: actionType },
+      "PATCH",
+      { "x-user-id": adminId }
+    );
+    revalidatePath("/dashboard/pending-courses");
+    return response;
+  } catch (error) {
+    return { success: false, message: error.message };
+  }
+};
+
+export const updateCourseAction = async (courseId, coursePayload) => {
+  try {
+    const response = await serverMutation(
+      `/api/courses/${courseId}`,
+      coursePayload,
+      "PATCH"
+    );
+    revalidatePath("/dashboard/my-courses");
+    return response;
+  } catch (error) {
+    return { success: false, message: error.message };
   }
 };

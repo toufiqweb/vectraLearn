@@ -5,7 +5,7 @@ import CourseCard from "../../../components/ui/CourseCard";
 import SearchCourses from "../../../components/ui/SearchCourses";
 import Pagination from "../../../components/ui/Pagination";
 import { Sparkles } from "lucide-react";
-import { getAllCourses } from "@/lib/api/courses";
+import { getAllCourses } from "@/lib/api/course";
 
 // Debounce hook
 function useDebounce(value, delay) {

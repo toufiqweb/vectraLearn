@@ -6,8 +6,8 @@ import { useSession } from "@/lib/auth-client";
 import Pagination from "@/components/ui/Pagination";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
-import { getAllReviewsForModerationClient } from "@/lib/api/reviews";
-import { deleteReviewAdminClient } from "@/lib/actions/reviews";
+import { getAllReviewsForModerationClient } from "@/lib/api/review";
+import { deleteReviewAdminClient } from "@/lib/actions/review";
 import SearchFilterBar from "@/components/ui/SearchFilterBar";
 import DashboardPageHeader from "@/components/ui/DashboardPageHeader";
 

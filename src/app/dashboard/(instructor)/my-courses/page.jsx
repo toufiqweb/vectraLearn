@@ -1,5 +1,5 @@
 import { getUserServerSession } from "@/lib/actions/getUserServerSession";
-import { getCoursesByInstructorClient } from "@/lib/api/courses";
+import { getCoursesByInstructorClient } from "@/lib/api/course";
 import MyCoursesContainer from "@/components/dashboard/MyCoursesContainer";
 import { redirect } from "next/navigation";
 

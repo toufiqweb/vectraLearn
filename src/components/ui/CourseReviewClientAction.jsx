@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Star, Lock } from "lucide-react";
 import CourseRatingModal from "./CourseRatingModal";
 
-export default function CourseReviewClientAction({ isEnrolled, courseId, courseTitle, existingReview }) {
+export default function CourseReviewClientAction({ isEnrolled, courseId, courseTitle, existingReview, userId }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // We can choose to reload the page or optimistically update the UI,
@@ -39,6 +39,7 @@ export default function CourseReviewClientAction({ isEnrolled, courseId, courseT
           onRatingSuccess={handleRatingSuccess}
           initialRating={existingReview?.rating || 0}
           initialMessage={existingReview?.message || ""}
+          userId={userId}
         />
       )}
     </>

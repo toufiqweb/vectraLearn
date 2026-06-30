@@ -1,7 +1,8 @@
 "use client";
 
 import { createContext, useContext, useState, useCallback, useEffect } from "react";
-import { toggleWishlistItem, getWishlistIds } from "@/lib/api/wishlist";
+import { getWishlistIds } from "@/lib/api/wishlist";
+import { toggleWishlistItem } from "@/lib/actions/wishlist";
 import { useUserClientSession } from "@/lib/api/getUserServerSession";
 import { toast } from "react-toastify";
 

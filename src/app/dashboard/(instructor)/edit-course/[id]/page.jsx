@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import { useUserClientSession } from "@/lib/api/getUserServerSession";
-import { getCourseById } from "@/lib/api/courses";
+import { getCourseById } from "@/lib/api/course";
+import { updateCourseAction } from "@/lib/actions/course";
 import { imageUpload } from "@/lib/imageUpload";
 import { 
   BookOpen, Plus, Trash2, ArrowRight, ArrowLeft, 
@@ -265,16 +266,8 @@ export default function EditCoursePage({ params }) {
           instructorId: user.id, // For ownership validation on the backend
         };
 
-        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:5000";
-        const response = await fetch(`${baseUrl}/api/courses/${courseId}`, {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(coursePayload),
-        });
+        const result = await updateCourseAction(courseId, coursePayload);
 
-        const result = await response.json();
         if (result.success) {
           toast.success(result.message || "Course updated successfully");
           router.push("/dashboard/my-courses");

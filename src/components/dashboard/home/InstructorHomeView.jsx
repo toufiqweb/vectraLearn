@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getInstructorAnalyticsClient, getCoursesByInstructorClient } from "@/lib/api/courses";
+import { getCoursesByInstructorClient } from "@/lib/api/course";
+import { getInstructorAnalyticsClient } from "@/lib/api/analytics";
 import { Users, Star, BookOpen, Loader2, ArrowRight, DollarSign, Activity, TrendingUp, BarChart3, MessageSquare, AlertCircle } from "lucide-react";
 import Link from "next/link";
 import {

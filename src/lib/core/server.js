@@ -1,23 +1,25 @@
+import { redirect } from "next/navigation";
+import { getTokenServer } from "./BetterAuthToken";
+
 // Server-side fetch utilities (NOT Server Actions - do not use "use server" here)
 const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
-export const serverMutation = async (
-  path,
-  data,
-  method = "POST",
-  token = null,
-  customHeaders = {}
-) => {
+export const authHeader = async () => {
+  const token = await getTokenServer();
+  const header = token ? { authorization: `Bearer ${token}` } : {};
+  return header;
+};
+
+export const serverMutation = async (path, data, method = "POST", customHeaders = {}) => {
   const res = await fetch(`${baseUrl}${path}`, {
-    method,
+    method: method,
     headers: {
       "Content-Type": "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...(await authHeader()),
       ...customHeaders,
     },
     body: JSON.stringify(data),
   });
-
   return handleStatus(res);
 };
 
@@ -27,22 +29,26 @@ export const serverFetch = async (path, customHeaders = {}) => {
       ...customHeaders,
     },
   });
-
   return handleStatus(res);
 };
 
-export const protectedServerFetch = async (path, token, customHeaders = {}) => {
+export const protectedFetch = async (path, customHeaders = {}) => {
   const res = await fetch(`${baseUrl}${path}`, {
     headers: {
-      Authorization: `Bearer ${token}`,
+      ...(await authHeader()),
       ...customHeaders,
     },
   });
-
   return handleStatus(res);
 };
 
 const handleStatus = async (res) => {
+  if (res.status === 401) {
+    redirect("/signin");
+  } else if (res.status === 403) {
+    redirect("/forbidden");
+  }
+  
   if (!res.ok) {
     let message = `Server error (${res.status})`;
     try {

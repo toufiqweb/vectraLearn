@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { Star, X } from "lucide-react";
 import { toast } from "react-toastify";
-import { rateCourseAction } from "@/lib/actions/courseRating";
+import { rateCourseAction } from "@/lib/actions/review";
 
 export default function CourseRatingModal({
   isOpen,
@@ -13,6 +13,7 @@ export default function CourseRatingModal({
   onRatingSuccess,
   initialRating = 0,
   initialMessage = "",
+  userId,
 }) {
   const [hoveredRating, setHoveredRating] = useState(0);
   const [selectedRating, setSelectedRating] = useState(initialRating);
@@ -45,6 +46,7 @@ export default function CourseRatingModal({
         courseId,
         selectedRating,
         reviewMessage,
+        userId
       );
 
       if (result.success) {

@@ -5,11 +5,8 @@ import { Loader2 } from "lucide-react";
 import Swal from "sweetalert2";
 import { toast } from "react-toastify";
 
-import {
-  getAllAdminCoursesClient,
-  approveOrRejectCourse,
-} from "@/lib/api/courses";
-import { deleteCourse } from "@/lib/actions/courses";
+import { getAllAdminCoursesClient } from "@/lib/api/course";
+import { deleteCourse, approveOrRejectCourse } from "@/lib/actions/course";
 import Pagination from "@/components/ui/Pagination";
 import AdminCoursesTable from "./AdminCoursesTable";
 import SearchFilterBar from "@/components/ui/SearchFilterBar";

@@ -4,7 +4,6 @@ import Link from "next/link";
 import { CheckCircle, Star } from "lucide-react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { getAllUsers } from "@/lib/api/users";
 import person2 from "../../assets/person2.jpg";
 import person3 from "../../assets/person3.jpg";
 
@@ -25,23 +24,6 @@ const staggerContainer = {
 
 const LearningTips = () => {
   const [students, setStudents] = useState([]);
-
-  useEffect(() => {
-    const fetchStudents = async () => {
-      try {
-        const data = await getAllUsers();
-        if (Array.isArray(data)) {
-          const studentUsers = data
-            .filter((u) => u.role === "student")
-            .slice(0, 5);
-          setStudents(studentUsers);
-        }
-      } catch (err) {
-        console.error("Failed to fetch dynamic students", err);
-      }
-    };
-    fetchStudents();
-  }, []);
 
   return (
     <section className="relative overflow-hidden section-light py-16 lg:py-24 transition-colors duration-300">

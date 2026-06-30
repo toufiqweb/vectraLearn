@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { DollarSign, Users, Star, Loader2, TrendingUp, Activity, PlayCircle } from "lucide-react";
 import { useSession } from "@/lib/auth-client";
-import { getInstructorAnalyticsClient } from "@/lib/api/courses";
+import { getInstructorAnalyticsClient } from "@/lib/api/analytics";
 import {
   AreaChart,
   Area,

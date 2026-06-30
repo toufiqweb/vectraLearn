@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getPlatformAnalyticsClient } from "@/lib/api/platformAnalytics";
+import { getPlatformAnalyticsClient } from "@/lib/api/analytics";
 import { Banknote, Briefcase, GraduationCap, BookOpen, Loader2, Activity } from "lucide-react";
 import {
   Area,

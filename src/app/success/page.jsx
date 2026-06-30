@@ -2,7 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { CheckCircle, BookOpen, ArrowRight, LayoutDashboard } from "lucide-react";
 import { stripe } from "../../lib/stripe";
-import { createTransaction } from "@/lib/actions/transactions";
+import { createTransaction } from "@/lib/actions/transaction";
 
 export const metadata = {
   title: "Enrollment Confirmed | VectraLearn",

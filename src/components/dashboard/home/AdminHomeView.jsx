@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getPlatformAnalyticsClient } from "@/lib/api/platformAnalytics";
-import { getPendingCoursesClient } from "@/lib/api/courses";
+import { getPlatformAnalyticsClient } from "@/lib/api/analytics";
+import { getPendingCoursesClient } from "@/lib/api/course";
 import { Banknote, Users, BookOpen, AlertCircle, Loader2, ArrowRight, ShieldCheck, TrendingUp, BarChart3, Clock } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";

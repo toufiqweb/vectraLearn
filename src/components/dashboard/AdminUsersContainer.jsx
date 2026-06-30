@@ -5,7 +5,8 @@ import { Search, Users, Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 
-import { getAllUsersAdmin, updateUserRoleAdmin, toggleUserBlockAdmin } from "@/lib/api/users";
+import { getAllUsersAdmin } from "@/lib/api/user";
+import { updateUserRoleAdmin, toggleUserBlockAdmin } from "@/lib/actions/user";
 import Pagination from "@/components/ui/Pagination";
 import AdminUsersTable from "./AdminUsersTable";
 import SearchFilterBar from "@/components/ui/SearchFilterBar";

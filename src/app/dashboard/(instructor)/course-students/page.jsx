@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Users, Mail, BookOpen, Clock, Loader2 } from "lucide-react";
 import { useSession } from "@/lib/auth-client";
 import Pagination from "@/components/ui/Pagination";
-import { getInstructorEnrolledStudentsClient } from "@/lib/api/courses";
+import { getInstructorEnrolledStudentsClient } from "@/lib/api/user";
 import SearchFilterBar from "@/components/ui/SearchFilterBar";
 import DashboardPageHeader from "@/components/ui/DashboardPageHeader";
 

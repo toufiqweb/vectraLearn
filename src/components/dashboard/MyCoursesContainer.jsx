@@ -19,8 +19,8 @@ import {
   ArrowRight,
   ChevronDown
 } from "lucide-react";
-import { getCoursesByInstructorClient, toggleCourseStatus } from "@/lib/api/courses";
-import { deleteCourse } from "@/lib/actions/courses";
+import { getCoursesByInstructorClient } from "@/lib/api/course";
+import { deleteCourse, toggleCourseStatus } from "@/lib/actions/course";
 import Pagination from "@/components/ui/Pagination";
 import { toast } from "react-toastify";
 import { motion, AnimatePresence } from "framer-motion";

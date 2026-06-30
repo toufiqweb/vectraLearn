@@ -3,7 +3,7 @@ import { headers } from "next/headers";
 
 import { stripe } from "../../../lib/stripe";
 import { getUserServerSession } from "@/lib/actions/getUserServerSession";
-import { serverFetch } from "@/lib/core/server";
+import { serverFetch, protectedFetch } from "@/lib/core/server";
 
 // POST /api/checkout_sessions
 export async function POST(request) {
@@ -24,7 +24,7 @@ export async function POST(request) {
     }
 
     // 1. Duplicate Enrollment Protection
-    const enrollmentCheck = await serverFetch(`/api/enrollments/check?userId=${user.id}&courseId=${courseId}`);
+    const enrollmentCheck = await protectedFetch(`/api/enrollments/check?userId=${user.id}&courseId=${courseId}`);
     if (enrollmentCheck.isEnrolled) {
       throw new Error("Already enrolled in this course.");
     }

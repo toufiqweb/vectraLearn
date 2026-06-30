@@ -15,10 +15,11 @@ import {
   Bookmark,
   Sparkles,
 } from "lucide-react";
-import { getCourseById, getCourseReviews } from "@/lib/api/courses";
+import { getCourseById } from "@/lib/api/course";
+import { getCourseReviews } from "@/lib/api/review";
 import { FaStar } from "react-icons/fa";
 import { getUserServerSession } from "@/lib/actions/getUserServerSession";
-import { serverFetch } from "@/lib/core/server";
+import { serverFetch, protectedFetch } from "@/lib/core/server";
 import CourseReviewClientAction from "@/components/ui/CourseReviewClientAction";
 
 const learnPoints = [
@@ -95,7 +96,7 @@ const CourseDetailPage = async ({ params }) => {
   let isEnrolled = false;
   if (user && course) {
     try {
-      const enrollmentCheck = await serverFetch(
+      const enrollmentCheck = await protectedFetch(
         `/api/enrollments/check?userId=${user.id}&courseId=${course._id}`,
       );
       isEnrolled = enrollmentCheck?.isEnrolled || false;
@@ -280,6 +281,7 @@ const CourseDetailPage = async ({ params }) => {
                   existingReview={dynamicReviews.find(
                     r => (r.userId?.toString() === user?.id) || (r.userId?._id?.toString() === user?.id)
                   )}
+                  userId={user?.id}
                 />
               </div>
               <div className="glass-card rounded-3xl p-6 md:p-8">
