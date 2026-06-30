@@ -13,6 +13,7 @@ import { useTheme } from "next-themes";
 import Link from "next/link";
 import { useSidebar } from "./SidebarProvider";
 import { useUserClientSession } from "@/lib/api/getUserServerSession";
+import { authClient } from "@/lib/auth-client";
 import Image from "next/image";
 
 export default function DashboardNavbar() {
@@ -175,7 +176,10 @@ export default function DashboardNavbar() {
                         className="flex w-full items-center gap-2 px-4 py-2 text-sm font-medium text-red-500 hover:text-red-600 hover:bg-red-500/10 transition-colors mt-1 border-t border-card-border pt-2"
                         role="menuitem"
                         tabIndex="-1"
-                        onClick={() => setIsDropdownOpen(false)}
+                        onClick={async () => {
+                          setIsDropdownOpen(false);
+                          await authClient.signOut();
+                        }}
                       >
                         <LogOut className="h-4 w-4" />
                         Sign out
