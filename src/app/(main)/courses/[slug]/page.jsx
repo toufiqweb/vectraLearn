@@ -12,7 +12,6 @@ import {
   CheckCircle2,
   HelpCircle,
   TrendingUp,
-  Bookmark,
   Sparkles,
 } from "lucide-react";
 import { getCourseById } from "@/lib/api/course";
@@ -21,7 +20,7 @@ import { getWishlistIds } from "@/lib/api/wishlist";
 import WishlistButton from "@/components/ui/WishlistButton";
 import { FaStar } from "react-icons/fa";
 import { getUserServerSession } from "@/lib/actions/getUserServerSession";
-import { serverFetch, protectedFetch } from "@/lib/core/server";
+import { protectedFetch } from "@/lib/core/server";
 import CourseReviewClientAction from "@/components/ui/CourseReviewClientAction";
 
 const learnPoints = [
@@ -76,15 +75,19 @@ const CourseDetailPage = async ({ params }) => {
   let course = null;
   let dynamicReviews = [];
   try {
-    const [courseResponse, reviewsResponse] = await Promise.all([
-      getCourseById(slug),
-      getCourseReviews(slug),
-    ]);
+    const courseResponse = await getCourseById(slug);
     course = courseResponse?.success ? courseResponse.data : null;
-    dynamicReviews = reviewsResponse?.success ? reviewsResponse.reviews : [];
+
+    if (course) {
+      const courseIdForReviews = course._id || course.id;
+      const reviewsResponse = await getCourseReviews(courseIdForReviews);
+      dynamicReviews = reviewsResponse?.success ? reviewsResponse.reviews : [];
+    }
   } catch (error) {
     console.error("Course fetch failed:", error);
   }
+
+  console.log({ dynamicReviews: dynamicReviews });
 
   if (!course) {
     return (
@@ -97,7 +100,7 @@ const CourseDetailPage = async ({ params }) => {
   const user = await getUserServerSession();
   let isEnrolled = false;
   let isWishlisted = false;
-  
+
   if (user && course) {
     try {
       const enrollmentCheck = await protectedFetch(
@@ -287,12 +290,14 @@ const CourseDetailPage = async ({ params }) => {
                   <Star className="w-6 h-6 text-brand-mint fill-brand-mint" />
                   Student Reviews
                 </h2>
-                <CourseReviewClientAction 
-                  isEnrolled={isEnrolled} 
-                  courseId={course._id || course.id} 
-                  courseTitle={course.title} 
+                <CourseReviewClientAction
+                  isEnrolled={isEnrolled}
+                  courseId={course._id || course.id}
+                  courseTitle={course.title}
                   existingReview={dynamicReviews.find(
-                    r => (r.userId?.toString() === user?.id) || (r.userId?._id?.toString() === user?.id)
+                    (r) =>
+                      r.userId?.toString() === user?.id ||
+                      r.userId?._id?.toString() === user?.id,
                   )}
                   userId={user?.id}
                 />
@@ -398,7 +403,7 @@ const CourseDetailPage = async ({ params }) => {
                       </button>
                     </form>
                   )}
-                  <WishlistButton 
+                  <WishlistButton
                     initialIsWishlisted={isWishlisted}
                     courseId={course._id || course.id}
                     userId={user?.id}
